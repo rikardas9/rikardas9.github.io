@@ -21,13 +21,14 @@
     body {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       background: #000;
       font-family: 'Bebas Neue', sans-serif;
       color: #fff;
       position: relative;
       overflow: hidden;
+      padding-top: 10px;
     }
 
     /* Animated background lines */
@@ -132,21 +133,21 @@
       height: 150px;
       object-fit: contain;
       display: block;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .countdown-text {
       font-size: 32px;
       font-weight: bold;
       color: darkgreen;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       text-align: center;
     }
 
     .countdown {
       font-size: 50px;
       font-weight: bold;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       text-align: center;
     }
 
@@ -155,6 +156,7 @@
       flex-direction: column;
       gap: 10px;
       align-items: center;
+      margin-bottom: 15px;
     }
 
     .glow-on-hover {
@@ -234,9 +236,14 @@
 
     /* Style for SoundCloud Player */
     .soundcloud-player {
-      width: 220px; /* Match the button width */
-      height: 166px; /* Set appropriate height */
-      margin: 20px 0;
+      width: 220px;
+      height: 166px;
+      margin: 10px 0;
+    }
+
+    /* Hide the SoundCloud attribution text */
+    .soundcloud-player div {
+      display: none;
     }
 
     @media screen and (max-width: 768px) {
@@ -258,10 +265,15 @@
     @media screen and (max-width: 480px) {
       .header-image {
         width: 80%;
+        height: 120px;
       }
 
       .countdown {
         font-size: 32px;
+      }
+      
+      body {
+        padding-top: 5px;
       }
     }
   </style>
