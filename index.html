@@ -30,11 +30,12 @@
         .countdown-wrapper {
             text-align: center;
             font-size: 32px;
-            margin-bottom: 30px;
+            margin: 0; /* Removed extra space at the top */
         }
 
         .countdown-wrapper h1 {
             font-size: 28px;
+            margin-bottom: 10px; /* Reduced margin below "DIRTY ERA DROPS" */
         }
 
         /* Button Styling */
@@ -112,6 +113,7 @@
             max-width: 300px; /* Limit width for small devices */
             height: 166px;
             border: none;
+            margin: 10px 0; /* Added small margin to separate iframe from buttons */
         }
 
         /* Styling for smaller screen versions */
@@ -134,7 +136,7 @@
             iframe {
                 width: 90%;
                 max-width: 320px;
-                margin-bottom: 20px;
+                margin-bottom: 10px; /* Reduced margin on smaller screens */
             }
         }
 
