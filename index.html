@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Page</title>
+    <title>CD</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -44,6 +44,7 @@
             margin-top: 20px;
             position: relative;
             overflow: hidden;
+            padding: 10px;
         }
 
         .links a:hover {
@@ -51,23 +52,32 @@
         }
 
         /* Sparkle Effect */
-        .links a::before {
+        .links a::after {
             content: '';
             position: absolute;
-            top: -100%;
-            left: 50%;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background: url('https://cdn.pixabay.com/photo/2017/08/30/02/55/sparkles-2693891_960_720.png') repeat;
             background-size: 10px 10px;
             opacity: 0;
-            transition: opacity 0.5s, top 0.5s;
             pointer-events: none;
+            z-index: -1;
+            animation: sparkle 1.5s linear infinite;
         }
 
-        .links a:hover::before {
+        .links a:hover::after {
             opacity: 1;
-            top: 0;
+        }
+
+        @keyframes sparkle {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 20px 20px;
+            }
         }
 
         .icon {
