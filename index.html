@@ -16,12 +16,14 @@
             justify-content: center;
             align-items: center;
             background: #000;
+            overflow: hidden; /* Prevent any overflow */
         }
 
         h1 {
             font-size: 2.5em;
             color: #fff;
-            margin-bottom: 20px; /* Reduced margin */
+            margin-bottom: 20px;
+            text-align: center; /* Center text */
         }
 
         /* Bebas Neue font for countdown */
@@ -29,10 +31,11 @@
 
         .countdown-timer {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 5em; /* Adjusted font size for mobile */
-            margin: 20px;
+            font-size: 6em; /* Larger font size for countdown */
+            margin: 10px;
             color: #006400; /* Dark Green */
             font-weight: bold;
+            text-align: center;
         }
 
         /* SoundCloud iframe container */
@@ -126,6 +129,10 @@
                 font-size: 4em; /* Slightly smaller for mobile */
             }
 
+            h1 {
+                font-size: 2em; /* Slightly smaller title */
+            }
+
             /* Make the iframe container smaller and centered */
             .soundcloud-container {
                 width: 90%; /* 90% width for better mobile fit */
@@ -136,7 +143,24 @@
                 width: 90%; /* Make buttons take 90% of screen width */
                 max-width: 320px; /* Button width doesn't exceed 320px */
             }
+
+            /* Add some padding for better spacing */
+            html, body {
+                padding: 10px;
+            }
         }
+
+        /* Extra small screen adjustments */
+        @media screen and (max-width: 480px) {
+            .countdown-timer {
+                font-size: 3.5em; /* Adjust even smaller for very small screens */
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+
     </style>
 </head>
 <body>
