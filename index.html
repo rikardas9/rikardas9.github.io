@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown & Links</title>
+    <title>DIRTY ERA OFFICIAL</title>
     <style>
         /* Global Reset */
         * {
@@ -24,18 +24,24 @@
             align-items: center;
             background: #000;
             color: #fff;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
         /* Text Styling */
         .countdown-wrapper {
             text-align: center;
             font-size: 32px;
-            margin: 0; /* Removed extra space at the top */
+            margin-top: 0; /* Removed space at the top */
         }
 
         .countdown-wrapper h1 {
             font-size: 28px;
             margin-bottom: 10px; /* Reduced margin below "DIRTY ERA DROPS" */
+        }
+
+        #countdown {
+            font-weight: bold; /* Make the countdown text bold */
+            font-size: 30px;
         }
 
         /* Button Styling */
@@ -127,6 +133,10 @@
                 font-size: 24px;
             }
 
+            #countdown {
+                font-size: 24px;
+            }
+
             .glow-on-hover {
                 width: 200px; /* Slightly reduce width on smaller screens */
                 height: 45px;
@@ -147,6 +157,10 @@
             }
 
             .countdown-wrapper h1 {
+                font-size: 20px;
+            }
+
+            #countdown {
                 font-size: 20px;
             }
         }
@@ -179,7 +193,7 @@
 
     <script>
         // Countdown Timer Script
-        const countdownDate = new Date("Mar 31, 2025 00:00:00").getTime();
+        const countdownDate = new Date("Nov 7, 2025 16:20:00").getTime();
         const countdownElement = document.getElementById("countdown");
 
         const countdownInterval = setInterval(function() {
