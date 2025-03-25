@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CD</title>
+    <title>Countdown Page</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -51,26 +51,54 @@
             color: #004d00; /* Darker Green on hover */
         }
 
-        /* Sparkle Effect using SVG Stars */
-        .links a:hover .sparkle {
-            display: block;
-            animation: sparkle 1.5s infinite;
+        /* Button with sparkles */
+        button {
+            padding: 20px 40px;
+            font-size: 1.2em;
+            background-color: #ff5500;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
         }
 
+        button:hover {
+            box-shadow: 0 0 20px rgba(255, 85, 0, 0.8), 0 0 40px rgba(255, 85, 0, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Sparkle Effect using SVG Stars */
         .sparkle {
             position: absolute;
-            top: -15px;
-            left: -15px;
+            top: -20px;
+            left: -20px;
             z-index: 1;
             display: none;
             opacity: 0;
+        }
+
+        .sparkle.left {
+            left: -40px;
+        }
+
+        .sparkle.center {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .sparkle.right {
+            right: -40px;
         }
 
         .star {
             width: 20px;
             height: 20px;
             fill: #fff;
-            animation: move 1.5s infinite;
+            animation: sparkle 1.5s infinite;
         }
 
         /* Keyframes for sparkle animation */
@@ -130,30 +158,23 @@
         <a href="https://www.instagram.com/r1kas777/" target="_blank">
             <i class="fab fa-instagram icon"></i> Instagram
             <!-- Sparkles (SVG Stars) -->
-            <div class="sparkle">
+            <div class="sparkle left">
+                <svg class="star" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53">
+                    <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
+                </svg>
+            </div>
+            <div class="sparkle center">
+                <svg class="star" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53">
+                    <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
+                </svg>
+            </div>
+            <div class="sparkle right">
                 <svg class="star" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53">
                     <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
                 </svg>
             </div>
         </a>
-        <a href="https://open.spotify.com/artist/2EbPx7TorY3TzgiyLzEEjY" target="_blank">
-            <i class="fab fa-spotify icon"></i> Spotify
-            <!-- Sparkles (SVG Stars) -->
-            <div class="sparkle">
-                <svg class="star" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53">
-                    <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
-                </svg>
-            </div>
-        </a>
-        <a href="https://www.youtube.com/channel/UC1gvPo9LBqAF19wGKZjEN-g" target="_blank">
-            <i class="fab fa-youtube icon"></i> YouTube
-            <!-- Sparkles (SVG Stars) -->
-            <div class="sparkle">
-                <svg class="star" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 784.11 815.53">
-                    <path d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path>
-                </svg>
-            </div>
-        </a>
+        <!-- Repeat this for other links as needed -->
     </div>
 
     <script>
