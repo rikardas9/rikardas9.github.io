@@ -1,219 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown & Links</title>
-    <style>
-        /* Global Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dirty Era Countdown</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: #000;
-            color: #fff;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
-        }
+    html,
+    body {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+      font-family: 'Bebas Neue', sans-serif;
+      color: #fff;
+    }
 
-        /* Text Styling */
-        .countdown-wrapper {
-            text-align: center;
-            font-size: 32px;
-            margin-top: 0; /* Removed space at the top */
-        }
+    /* Style for header image */
+    .header-image {
+      width: 100%;              /* Take up full width */
+      max-width: 500px;         /* Limit max width to 500px */
+      height: 150px;            /* Set a fixed height similar to the SoundCloud player */
+      object-fit: contain;      /* Ensure the image fits within the dimensions while maintaining aspect ratio */
+      display: block;
+      margin-bottom: 20px;      /* Space between image and "DIRTY ERA DROPS" text */
+    }
 
-        .countdown-wrapper h1 {
-            font-size: 28px;
-            margin-bottom: 10px; /* Reduced margin below "DIRTY ERA DROPS" */
-        }
+    .countdown-text {
+      font-size: 32px;
+      font-weight: bold;
+      color: darkgreen;
+      margin-bottom: 10px;
+    }
 
-        #countdown {
-            font-weight: bold; /* Make the countdown text bold */
-            font-size: 30px;
-            color: darkgreen; /* Changed color to dark green */
-            text-transform: uppercase; /* Make text uppercase */
-        }
+    .countdown {
+      font-size: 50px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
 
-        /* Button Styling */
-        .glow-on-hover {
-            width: 250px; /* Increased width of buttons */
-            height: 50px;
-            border: none;
-            outline: none;
-            color: #fff;
-            background: #111;
-            cursor: pointer;
-            position: relative;
-            z-index: 0;
-            border-radius: 10px;
-            margin: 10px 0; /* Vertical margin between buttons */
-            display: flex;
-            justify-content: center;
-            align-items: center; /* Center text horizontally and vertically */
-            text-align: center;
-            padding: 0 15px; /* Added padding to avoid text overflow */
-            font-size: 16px;
-        }
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
 
-        /* Rest of the glow effect */
-        .glow-on-hover:before {
-            content: '';
-            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-            position: absolute;
-            top: -2px;
-            left:-2px;
-            background-size: 400%;
-            z-index: -1;
-            filter: blur(5px);
-            width: calc(100% + 4px);
-            height: calc(100% + 4px);
-            animation: glowing 20s linear infinite;
-            opacity: 0;
-            transition: opacity .3s ease-in-out;
-            border-radius: 10px;
-        }
+    .glow-on-hover {
+      width: 220px;
+      height: 50px;
+      border: none;
+      outline: none;
+      color: #fff;
+      background: #111;
+      cursor: pointer;
+      position: relative;
+      z-index: 0;
+      border-radius: 10px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
 
-        .glow-on-hover:active {
-            color: #000;
-        }
+    .glow-on-hover:before {
+      content: '';
+      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      animation: glowing 20s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      border-radius: 10px;
+    }
 
-        .glow-on-hover:active:after {
-            background: transparent;
-        }
+    .glow-on-hover:active {
+      color: #000;
+    }
 
-        .glow-on-hover:hover:before {
-            opacity: 1;
-        }
+    .glow-on-hover:active:after {
+      background: transparent;
+    }
 
-        .glow-on-hover:after {
-            z-index: -1;
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: #111;
-            left: 0;
-            top: 0;
-            border-radius: 10px;
-        }
+    .glow-on-hover:hover:before {
+      opacity: 1;
+    }
 
-        @keyframes glowing {
-            0% { background-position: 0 0; }
-            50% { background-position: 400% 0; }
-            100% { background-position: 0 0; }
-        }
+    .glow-on-hover:after {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #111;
+      left: 0;
+      top: 0;
+      border-radius: 10px;
+    }
 
-        /* For SoundCloud iframe */
-        iframe {
-            width: 100%;
-            max-width: 300px; /* Limit width for small devices */
-            height: 166px;
-            border: none;
-            margin: 10px 0; /* Added small margin to separate iframe from buttons */
-        }
+    @keyframes glowing {
+      0% {
+        background-position: 0 0;
+      }
 
-        /* Styling for smaller screen versions */
-        @media screen and (max-width: 768px) {
-            html, body {
-                flex-direction: column;
-                align-items: center;
-            }
+      50% {
+        background-position: 400% 0;
+      }
 
-            .countdown-wrapper h1 {
-                font-size: 24px;
-            }
+      100% {
+        background-position: 0 0;
+      }
+    }
 
-            #countdown {
-                font-size: 24px;
-            }
+    iframe {
+      width: 100%;
+      height: 150px;
+      border: none;
+    }
 
-            .glow-on-hover {
-                width: 200px; /* Slightly reduce width on smaller screens */
-                height: 45px;
-                font-size: 14px;
-            }
+    .soundcloud-info {
+      font-size: 10px;
+      color: #cccccc;
+      line-break: anywhere;
+      word-break: normal;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 100;
+      text-align: center;
+    }
 
-            iframe {
-                width: 90%;
-                max-width: 320px;
-                margin-bottom: 10px; /* Reduced margin on smaller screens */
-            }
-        }
+    @media screen and (max-width: 768px) {
+      .countdown {
+        font-size: 40px;
+      }
 
-        @media screen and (max-width: 480px) {
-            .glow-on-hover {
-                width: 180px; /* Further reduce for very small screens */
-                height: 40px;
-            }
+      .social-buttons {
+        width: 100%;
+        align-items: center;
+      }
 
-            .countdown-wrapper h1 {
-                font-size: 20px;
-            }
+      .glow-on-hover {
+        width: 80%;
+        font-size: 14px;
+      }
 
-            #countdown {
-                font-size: 20px;
-            }
-        }
-    </style>
+      iframe {
+        height: 100px;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .header-image {
+        width: 80%;
+      }
+
+      .countdown {
+        font-size: 32px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <!-- Countdown & Text Section -->
-    <div class="countdown-wrapper">
-        <h1>DIRTY ERA DROPS</h1>
-        <div id="countdown">
-            <!-- Countdown Timer -->
-        </div>
-    </div>
 
-    <!-- SoundCloud Embed -->
-    <iframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2062237796%3Fsecret_token%3Ds-H809hTNthL6&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true" allow="autoplay" frameborder="0"></iframe>
+  <!-- Header Image -->
+  <img src="https://pngimg.com/uploads/skull/skull_PNG1.png" class="header-image" alt="Skull Image">
 
-    <!-- Links/Buttons Section -->
-    <div>
-        <a href="https://www.instagram.com/r1kas777/" target="_blank">
-            <button class="glow-on-hover">INSTAGRAM</button>
-        </a>
-        <a href="https://www.youtube.com/channel/UCdH8weXCIfr2rARcInJn3Ew" target="_blank">
-            <button class="glow-on-hover">YOUTUBE</button>
-        </a>
-        <a href="https://open.spotify.com/artist/2EbPx7TorY3TzgiyLzEEjY" target="_blank">
-            <button class="glow-on-hover">SPOTIFY</button>
-        </a>
-    </div>
+  <!-- Countdown Section -->
+  <div class="countdown-text">DIRTY ERA DROPS</div>
+  <div class="countdown" id="countdown"></div>
 
-    <script>
-        // Countdown Timer Script
-        const countdownDate = new Date("Nov 7, 2025 16:20:00").getTime();
-        const countdownElement = document.getElementById("countdown");
+  <!-- Soundcloud Embed -->
+  <iframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2062237796%3Fsecret_token%3Ds-H809hTNthL6&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+  <div class="soundcloud-info">
+    <a href="https://soundcloud.com/alaus-komanda" title="alaus komanda" target="_blank" style="color: #cccccc; text-decoration: none;">alaus komanda</a> ·
+    <a href="https://soundcloud.com/alaus-komanda/ceremonija-dirty-era-teaser/s-H809hTNthL6" title="CEREMONIJA (DIRTY ERA TEASER)" target="_blank" style="color: #cccccc; text-decoration: none;">CEREMONIJA (DIRTY ERA TEASER)</a>
+  </div>
 
-        const countdownInterval = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = countdownDate - now;
+  <!-- Social Media Buttons -->
+  <div class="social-buttons">
+    <a href="https://www.instagram.com/r1kas777/" class="glow-on-hover">Instagram</a>
+    <a href="https://www.youtube.com/channel/UCdH8weXCIfr2rARcInJn3Ew" class="glow-on-hover">YouTube</a>
+    <a href="https://open.spotify.com/artist/2EbPx7TorY3TzgiyLzEEjY" class="glow-on-hover">Spotify</a>
+  </div>
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  <script>
+    // Countdown Timer
+    const countdownDate = new Date("Nov 7, 2025 16:20:00").getTime();
 
-            countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    const countdownFunction = setInterval(function () {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
 
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                countdownElement.innerHTML = "EXPIRED";
-            }
-        }, 1000);
-    </script>
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+      if (distance < 0) {
+        clearInterval(countdownFunction);
+        document.getElementById("countdown").innerHTML = "EXPIRED";
+      }
+    }, 1000);
+  </script>
+
 </body>
+
 </html>
