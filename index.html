@@ -1,222 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Page</title>
-    <style>
-        /* Prevent scrolling horizontally */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column; /* Stack elements vertically */
-            justify-content: center; /* Center content vertically */
-            align-items: center; /* Center content horizontally */
-            background: #000;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
-        }
+/* Button */
+.glow-on-hover {
+    width: 250px; /* Increased the width of the button */
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    margin: 10px 0; /* Vertical margin between buttons */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center text horizontally and vertically */
+    text-align: center;
+    padding: 0 15px; /* Added padding to avoid text overflow */
+}
 
-        h1 {
-            font-size: 2.5em;
-            color: #fff;
-            margin-bottom: 20px;
-            text-align: center; /* Ensure text is centered */
-            margin-left: 0;
-        }
+/* Additional styling for the text */
+.glow-on-hover span {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
 
-        /* Bebas Neue font for countdown */
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+/* Rest of the glow effect */
+.glow-on-hover:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
 
-        .countdown-timer {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 6em; /* Larger font size for countdown */
-            margin: 10px;
-            color: #006400; /* Dark Green */
-            font-weight: bold;
-            text-align: center;
-        }
+.glow-on-hover:active {
+    color: #000
+}
 
-        /* SoundCloud iframe container */
-        .soundcloud-container {
-            width: 100%;
-            max-width: 320px; /* Make it small for mobile */
-            margin: 20px 0; /* Space between countdown and buttons */
-            background: #111;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+.glow-on-hover:active:after {
+    background: transparent;
+}
 
-        iframe {
-            width: 100%;
-            height: 166px;
-            border: none;
-        }
+.glow-on-hover:hover:before {
+    opacity: 1;
+}
 
-        /* Button */
-        .glow-on-hover {
-            width: 220px;
-            height: 50px;
-            border: none;
-            outline: none;
-            color: #fff;
-            background: #111;
-            cursor: pointer;
-            position: relative;
-            z-index: 0;
-            border-radius: 10px;
-            margin: 10px 0; /* Vertical margin between buttons */
-        }
+.glow-on-hover:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
 
-        .glow-on-hover:before {
-            content: '';
-            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-            position: absolute;
-            top: -2px;
-            left:-2px;
-            background-size: 400%;
-            z-index: -1;
-            filter: blur(5px);
-            width: calc(100% + 4px);
-            height: calc(100% + 4px);
-            animation: glowing 20s linear infinite;
-            opacity: 0;
-            transition: opacity .3s ease-in-out;
-            border-radius: 10px;
-        }
-
-        .glow-on-hover:active {
-            color: #000
-        }
-
-        .glow-on-hover:active:after {
-            background: transparent;
-        }
-
-        .glow-on-hover:hover:before {
-            opacity: 1;
-        }
-
-        .glow-on-hover:after {
-            z-index: -1;
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: #111;
-            left: 0;
-            top: 0;
-            border-radius: 10px;
-        }
-
-        @keyframes glowing {
-            0% { background-position: 0 0; }
-            50% { background-position: 400% 0; }
-            100% { background-position: 0 0; }
-        }
-
-        .links {
-            text-align: center;
-            display: flex;
-            flex-direction: column; /* Stack buttons vertically */
-            align-items: center;
-        }
-
-        /* Mobile Responsive Styles */
-        @media screen and (max-width: 768px) {
-            .countdown-timer {
-                font-size: 4em; /* Slightly smaller for mobile */
-            }
-
-            h1 {
-                font-size: 2em; /* Slightly smaller title */
-            }
-
-            /* Make the iframe container smaller and centered */
-            .soundcloud-container {
-                width: 90%; /* 90% width for better mobile fit */
-                max-width: 300px; /* Ensures it's not too large */
-            }
-
-            .glow-on-hover {
-                width: 90%; /* Make buttons take 90% of screen width */
-                max-width: 320px; /* Button width doesn't exceed 320px */
-            }
-
-            /* Add some padding for better spacing */
-            html, body {
-                padding: 10px;
-            }
-        }
-
-        /* Extra small screen adjustments */
-        @media screen and (max-width: 480px) {
-            .countdown-timer {
-                font-size: 3.5em; /* Adjust even smaller for very small screens */
-            }
-
-            h1 {
-                font-size: 1.8em;
-            }
-        }
-
-    </style>
-</head>
-<body>
-
-    <h1>DIRTY ERA DROPS</h1> <!-- Positioned above the countdown -->
-    <div id="countdown" class="countdown-timer"></div> <!-- Countdown timer -->
-
-    <!-- SoundCloud Player -->
-    <div class="soundcloud-container">
-        <iframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2062237796%3Fsecret_token%3Ds-H809hTNthL6&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-                allow="autoplay" scrolling="no"></iframe>
-        <div style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Garuda, Verdana, Tahoma, sans-serif; font-weight: 100;">
-            <a href="https://soundcloud.com/alaus-komanda" title="alaus komanda" target="_blank" style="color: #cccccc; text-decoration: none;">alaus komanda</a> · 
-            <a href="https://soundcloud.com/alaus-komanda/ceremonija-dirty-era-teaser/s-H809hTNthL6" title="CEREMONIJA (DIRTY ERA TEASER)" target="_blank" style="color: #cccccc; text-decoration: none;">CEREMONIJA (DIRTY ERA TEASER)</a>
-        </div>
-    </div>
-
-    <div class="links">
-        <!-- Instagram Link -->
-        <a href="https://www.instagram.com/r1kas777/" target="_blank">
-            <button class="glow-on-hover">Instagram</button>
-        </a>
-
-        <!-- Spotify Link -->
-        <a href="https://open.spotify.com/artist/2EbPx7TorY3TzgiyLzEEjY" target="_blank">
-            <button class="glow-on-hover">Spotify</button>
-        </a>
-
-        <!-- YouTube Link -->
-        <a href="https://www.youtube.com/channel/UCdH8weXCIfr2rARcInJn3Ew" target="_blank">
-            <button class="glow-on-hover">YouTube</button>
-        </a>
-    </div>
-
-    <script>
-        // Countdown to November 7th
-        const countdownDate = new Date("November 7, 2025 00:00:00").getTime();
-
-        let x = setInterval(function() {
-            let now = new Date().getTime();
-            let distance = countdownDate - now;
-
-            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("countdown").innerHTML = "EXPIRED";
-            }
-        }, 1000);
-    </script>
-
-</body>
-</html>
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
