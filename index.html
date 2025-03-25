@@ -4,13 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dirty Era Countdown</title>
+  <title>Dirty Era</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box !important;
+      cursor: none !important; /* Disable default cursor */
     }
 
     html, body {
@@ -30,6 +31,42 @@
       overflow: hidden;
       padding-top: 10px;
       min-height: 100vh;
+    }
+
+    /* Custom Cursor Styles */
+    .cursor {
+      width: 20px;
+      height: 20px;
+      border: 1px solid white;
+      border-radius: 50%;
+      position: absolute;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      z-index: 9999;
+      transition: transform 0.3s ease;
+    }
+    
+    .cursor-follower {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      position: absolute;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      z-index: 9998;
+      transition: transform 0.6s ease, width 0.3s ease, height 0.3s ease;
+    }
+    
+    .cursor.active {
+      transform: scale(1.5);
+      background-color: white;
+    }
+    
+    .cursor-follower.active {
+      transform: scale(0.1);
+      width: 30px;
+      height: 30px;
     }
 
     /* Animated background lines */
@@ -167,7 +204,7 @@
       outline: none;
       color: #fff;
       background: #111;
-      cursor: pointer;
+      cursor: none !important;
       position: relative;
       z-index: 0;
       border-radius: 10px;
@@ -274,6 +311,14 @@
         width: 80%;
         font-size: 14px;
       }
+      
+      /* Hide custom cursor on mobile */
+      .cursor, .cursor-follower {
+        display: none;
+      }
+      * {
+        cursor: auto !important;
+      }
     }
 
     @media screen and (max-width: 480px) {
@@ -294,6 +339,10 @@
 </head>
 
 <body>
+  <!-- Custom Cursor Elements -->
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+
   <!-- Animated Background Lines -->
   <div class="lines">
     <div class="line"></div>
@@ -358,6 +407,33 @@
         document.getElementById("countdown").innerHTML = "EXPIRED";
       }
     }, 1000);
+
+    // Custom Cursor
+    const cursor = document.querySelector('.cursor');
+    const cursorFollower = document.querySelector('.cursor-follower');
+    const links = document.querySelectorAll('a, button, .glow-on-hover');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      
+      setTimeout(() => {
+        cursorFollower.style.left = e.clientX + 'px';
+        cursorFollower.style.top = e.clientY + 'px';
+      }, 100);
+    });
+
+    links.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        cursor.classList.add('active');
+        cursorFollower.classList.add('active');
+      });
+      
+      link.addEventListener('mouseleave', () => {
+        cursor.classList.remove('active');
+        cursorFollower.classList.remove('active');
+      });
+    });
   </script>
 
 </body>
