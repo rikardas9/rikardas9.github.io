@@ -28,12 +28,12 @@
 
     /* Style for header image */
     .header-image {
-      width: 100%;              /* Take up full width */
-      max-width: 500px;         /* Limit max width to 500px */
-      height: 150px;            /* Set a fixed height similar to the SoundCloud player */
-      object-fit: contain;      /* Ensure the image fits within the dimensions while maintaining aspect ratio */
+      width: 100%;
+      max-width: 500px;
+      height: 150px;
+      object-fit: contain;
       display: block;
-      margin-bottom: 20px;      /* Space between image and "DIRTY ERA DROPS" text */
+      margin-bottom: 20px;
     }
 
     .countdown-text {
@@ -41,12 +41,14 @@
       font-weight: bold;
       color: darkgreen;
       margin-bottom: 10px;
+      text-align: center;
     }
 
     .countdown {
       font-size: 50px;
       font-weight: bold;
       margin-bottom: 20px;
+      text-align: center;
     }
 
     .social-buttons {
@@ -70,6 +72,9 @@
       font-family: 'Bebas Neue', sans-serif;
       font-weight: bold;
       letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .glow-on-hover:before {
@@ -129,8 +134,9 @@
 
     iframe {
       width: 100%;
-      height: 150px;
+      height: 166px;
       border: none;
+      margin-bottom: 20px;
     }
 
     .soundcloud-info {
@@ -162,7 +168,7 @@
       }
 
       iframe {
-        height: 100px;
+        height: 120px;
       }
     }
 
@@ -187,7 +193,7 @@
   <div class="countdown-text">DIRTY ERA DROPS</div>
   <div class="countdown" id="countdown"></div>
 
-  <!-- Soundcloud Embed -->
+  <!-- New Soundcloud Embed -->
   <iframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2062237796%3Fsecret_token%3Ds-H809hTNthL6&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
   <div class="soundcloud-info">
     <a href="https://soundcloud.com/alaus-komanda" title="alaus komanda" target="_blank" style="color: #cccccc; text-decoration: none;">alaus komanda</a> ·
