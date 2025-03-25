@@ -21,7 +21,7 @@
         h1 {
             font-size: 2.5em;
             color: #fff;
-            margin-bottom: 30px; /* Space between title and countdown */
+            margin-bottom: 20px; /* Reduced margin */
         }
 
         /* Bebas Neue font for countdown */
@@ -29,10 +29,26 @@
 
         .countdown-timer {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 6em; /* Larger font size */
+            font-size: 5em; /* Adjusted font size for mobile */
             margin: 20px;
             color: #006400; /* Dark Green */
             font-weight: bold;
+        }
+
+        /* SoundCloud iframe container */
+        .soundcloud-container {
+            width: 100%;
+            max-width: 320px; /* Make it small for mobile */
+            margin: 20px 0; /* Space between countdown and buttons */
+            background: #111;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 166px;
+            border: none;
         }
 
         /* Button */
@@ -107,7 +123,18 @@
         /* Mobile Responsive Styles */
         @media screen and (max-width: 768px) {
             .countdown-timer {
-                font-size: 3em; /* Smaller font size for countdown on mobile */
+                font-size: 4em; /* Slightly smaller for mobile */
+            }
+
+            /* Make the iframe container smaller and centered */
+            .soundcloud-container {
+                width: 90%; /* 90% width for better mobile fit */
+                max-width: 300px; /* Ensures it's not too large */
+            }
+
+            .glow-on-hover {
+                width: 90%; /* Make buttons take 90% of screen width */
+                max-width: 320px; /* Button width doesn't exceed 320px */
             }
         }
     </style>
@@ -116,6 +143,16 @@
 
     <h1>DIRTY ERA DROPS</h1> <!-- Positioned above the countdown -->
     <div id="countdown" class="countdown-timer"></div> <!-- Countdown timer -->
+
+    <!-- SoundCloud Player -->
+    <div class="soundcloud-container">
+        <iframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2062237796%3Fsecret_token%3Ds-H809hTNthL6&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+                allow="autoplay" scrolling="no"></iframe>
+        <div style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Garuda, Verdana, Tahoma, sans-serif; font-weight: 100;">
+            <a href="https://soundcloud.com/alaus-komanda" title="alaus komanda" target="_blank" style="color: #cccccc; text-decoration: none;">alaus komanda</a> · 
+            <a href="https://soundcloud.com/alaus-komanda/ceremonija-dirty-era-teaser/s-H809hTNthL6" title="CEREMONIJA (DIRTY ERA TEASER)" target="_blank" style="color: #cccccc; text-decoration: none;">CEREMONIJA (DIRTY ERA TEASER)</a>
+        </div>
+    </div>
 
     <div class="links">
         <!-- Instagram Link -->
