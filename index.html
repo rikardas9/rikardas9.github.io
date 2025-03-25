@@ -13,8 +13,7 @@
       box-sizing: border-box;
     }
 
-    html,
-    body {
+    html, body {
       width: 100%;
       height: 100vh;
       display: flex;
@@ -25,6 +24,56 @@
       font-family: 'Bebas Neue', sans-serif;
       color: #fff;
       overflow: hidden;
+      position: relative; /* Ensures content is positioned correctly */
+    }
+
+    /* Background Animated Lines */
+    .lines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      z-index: -1; /* Ensures it stays behind content */
+      pointer-events: none;
+    }
+
+    .line {
+      width: 2px; /* Adjust line thickness */
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.1); /* Faint base color */
+    }
+
+    .line::after {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 15vh;
+      width: 100%;
+      top: -50%;
+      left: 0;
+      animation: drop 7s infinite cubic-bezier(0.4, 0.26, 0, 0.97);
+    }
+
+    /* Different colors for each line */
+    .line:nth-child(1)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF4500 75%, #FF4500 100%); animation-delay: 0.5s; }
+    .line:nth-child(2)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #32CD32 75%, #32CD32 100%); animation-delay: 1s; }
+    .line:nth-child(3)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #1E90FF 75%, #1E90FF 100%); animation-delay: 1.5s; }
+    .line:nth-child(4)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FFD700 75%, #FFD700 100%); animation-delay: 2s; }
+    .line:nth-child(5)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #8A2BE2 75%, #8A2BE2 100%); animation-delay: 2.5s; }
+    .line:nth-child(6)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #20B2AA 75%, #20B2AA 100%); animation-delay: 3s; }
+    .line:nth-child(7)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #DC143C 75%, #DC143C 100%); animation-delay: 3.5s; }
+    .line:nth-child(8)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00FA9A 75%, #00FA9A 100%); animation-delay: 4s; }
+    .line:nth-child(9)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF1493 75%, #FF1493 100%); animation-delay: 4.5s; }
+    .line:nth-child(10)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00BFFF 75%, #00BFFF 100%); animation-delay: 5s; }
+
+    @keyframes drop {
+      0% { top: -50%; }
+      100% { top: 110%; }
     }
 
     /* Style for header image */
@@ -59,149 +108,18 @@
       align-items: center;
     }
 
-    .glow-on-hover {
-      width: 220px;
-      height: 50px;
-      border: none;
-      outline: none;
-      color: #fff;
-      background: #111;
-      cursor: pointer;
-      position: relative;
-      z-index: 0;
-      border-radius: 10px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-weight: bold;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .glow-on-hover:before {
-      content: '';
-      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      background-size: 400%;
-      z-index: -1;
-      filter: blur(5px);
-      width: calc(100% + 4px);
-      height: calc(100% + 4px);
-      animation: glowing 20s linear infinite;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-      border-radius: 10px;
-    }
-
-    .glow-on-hover:hover:before {
-      opacity: 1;
-    }
-
-    .glow-on-hover:after {
-      z-index: -1;
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #111;
-      left: 0;
-      top: 0;
-      border-radius: 10px;
-    }
-
-    @keyframes glowing {
-      0% { background-position: 0 0; }
-      50% { background-position: 400% 0; }
-      100% { background-position: 0 0; }
-    }
-
     @media screen and (max-width: 768px) {
       .countdown { font-size: 40px; }
-      .social-buttons { width: 100%; align-items: center; }
-      .glow-on-hover { width: 80%; font-size: 14px; }
     }
 
     @media screen and (max-width: 480px) {
       .header-image { width: 80%; }
       .countdown { font-size: 32px; }
     }
-
-    /* Style for SoundCloud Player */
-    .soundcloud-player {
-      width: 220px;
-      height: 166px;
-      margin: 20px 0;
-    }
-
-    /* ====== Animated Lines ====== */
-    .lines {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 100%;
-      width: 90vw;
-      display: flex;
-      justify-content: space-between;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .line {
-      width: 1px;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .line::after {
-      content: '';
-      display: block;
-      position: absolute;
-      height: 15vh;
-      width: 100%;
-      top: -50%;
-      left: 0;
-      animation: drop 7s infinite cubic-bezier(0.4, 0.26, 0, 0.97);
-    }
-
-    /* Colors for each animated line */
-    .line:nth-child(1)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF4500 75%, #FF4500 100%); animation-delay: 0.5s; }
-    .line:nth-child(2)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #32CD32 75%, #32CD32 100%); animation-delay: 1s; }
-    .line:nth-child(3)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #1E90FF 75%, #1E90FF 100%); animation-delay: 1.5s; }
-    .line:nth-child(4)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FFD700 75%, #FFD700 100%); animation-delay: 2s; }
-    .line:nth-child(5)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #8A2BE2 75%, #8A2BE2 100%); animation-delay: 2.5s; }
-
-    @keyframes drop {
-      0% { top: -50%; }
-      100% { top: 110%; }
-    }
   </style>
 </head>
 
 <body>
-
-  <!-- Header Image -->
-  <img src="https://i.imgur.com/O1dIl1g.jpeg" class="header-image" alt="Skull Image">
-
-  <!-- Countdown Section -->
-  <div class="countdown-text">DIRTY ERA DROPS</div>
-  <div class="countdown" id="countdown"></div>
-
-  <!-- SoundCloud Player -->
-  <div class="soundcloud-player">
-    <iframe width="100%" height="100%" scrolling="no" frameborder="no" allow="autoplay"
-      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2062237796%3Fsecret_token%3Ds-H809hTNthL6&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
-    </iframe>
-  </div>
-
-  <!-- Social Media Buttons -->
-  <div class="social-buttons">
-    <a href="https://open.spotify.com/artist/2EbPx7TorY3TzgiyLzEEjY" class="glow-on-hover">Spotify</a>
-    <a href="https://www.instagram.com/r1kas777/" class="glow-on-hover">Instagram</a>
-    <a href="https://www.youtube.com/channel/UCdH8weXCIfr2rARcInJn3Ew" class="glow-on-hover">YouTube</a>
-  </div>
 
   <!-- Background Animated Lines -->
   <div class="lines">
@@ -210,6 +128,25 @@
     <div class="line"></div>
     <div class="line"></div>
     <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+
+  <!-- Header Image -->
+  <img src="https://i.imgur.com/O1dIl1g.jpeg" class="header-image" alt="Skull Image">
+
+  <!-- Countdown Section -->
+  <div class="countdown-text">DIRTY ERA DROPS</div>
+  <div class="countdown" id="countdown"></div>
+
+  <!-- Social Media Buttons -->
+  <div class="social-buttons">
+    <a href="https://open.spotify.com/artist/2EbPx7TorY3TzgiyLzEEjY" class="glow-on-hover">Spotify</a>
+    <a href="https://www.instagram.com/r1kas777/" class="glow-on-hover">Instagram</a>
+    <a href="https://www.youtube.com/channel/UCdH8weXCIfr2rARcInJn3Ew" class="glow-on-hover">YouTube</a>
   </div>
 
   <script>
