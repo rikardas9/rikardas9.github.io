@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Page</title>
+    <title>DIRTY ERA</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -77,7 +77,9 @@
         }
 
         iframe {
-            display: none; /* Hide the iframe */
+            display: block;
+            margin-top: 30px;
+            margin-bottom: 30px;
         }
 
         /* Mobile Responsive Styles */
@@ -116,10 +118,9 @@
         </a>
     </div>
 
-    <!-- Background music from SoundCloud -->
-    <div id="soundcloud-container"></div>
-
-    <div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;">
+    <!-- SoundCloud Player (Hidden but Playing) -->
+    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2062237796%3Fsecret_token%3Ds-H809hTNthL6&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+    <div style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Garuda, Verdana, Tahoma, sans-serif; font-weight: 100;">
         <a href="https://soundcloud.com/alaus-komanda" title="alaus komanda" target="_blank" style="color: #cccccc; text-decoration: none;">alaus komanda</a> · 
         <a href="https://soundcloud.com/alaus-komanda/ceremonija-dirty-era-teaser/s-H809hTNthL6" title="CEREMONIJA (DIRTY ERA TEASER)" target="_blank" style="color: #cccccc; text-decoration: none;">CEREMONIJA (DIRTY ERA TEASER)</a>
     </div>
@@ -144,25 +145,6 @@
                 document.getElementById("countdown").innerHTML = "EXPIRED";
             }
         }, 1000);
-
-        // Add SoundCloud iframe dynamically with autoplay
-        window.onload = function() {
-            var soundcloudContainer = document.getElementById("soundcloud-container");
-            var iframe = document.createElement("iframe");
-            iframe.width = "100%";
-            iframe.height = "300";
-            iframe.scrolling = "no";
-            iframe.frameBorder = "no";
-            iframe.allow = "autoplay";
-            iframe.src = "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2062237796%3Fsecret_token%3Ds-H809hTNthL6&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true";
-            iframe.style.display = "none"; // Make iframe invisible
-            soundcloudContainer.appendChild(iframe);
-
-            // Ensure the iframe will play the music as soon as it's loaded
-            setTimeout(function() {
-                iframe.src = iframe.src; // This forces a reload and ensures autoplay
-            }, 500);
-        };
     </script>
 
 </body>
