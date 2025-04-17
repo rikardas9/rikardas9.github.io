@@ -122,7 +122,7 @@
     .line:nth-child(5)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #8A2BE2 75%, #8A2BE2 100%); animation-delay: 2.5s; }
     .line:nth-child(6)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #20B2AA 75%, #20B2AA 100%); animation-delay: 3s; }
     .line:nth-child(7)::after { background: linear-gradient(to bottom, rgba(255, 250, 255, 0) 0%, #DC143C 75%, #DC143C 100%); animation-delay: 3.5s; }
-    .line:nth-child(8)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00FA9A 75%, #00FA9satA 100%); animation-delay: 4s; }
+    .line:nth-child(8)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00FA9A 75%, #00FA9A 100%); animation-delay: 4s; }
     .line:nth-child(9)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF1493 75%, #FF1493 100%); animation-delay: 4.5s; }
     .line:nth-child(10)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00BFFF 75%, #00BFFF 100%); animation-delay: 5s; }
 
@@ -230,6 +230,21 @@
       100% { background-position: 0 0; }
     }
 
+    /* Greyed-out button styles */
+    .glow-on-hover.greyed-out {
+      color: #ff0000; /* Red text */
+      background: #333; /* Dark grey background */
+      opacity: 0.5; /* Greyed-out appearance */
+      pointer-events: none; /* Disable interactions */
+      cursor: not-allowed; /* Indicate non-interactivity */
+    }
+
+    .glow-on-hover.greyed-out:before,
+    .glow-on-hover.greyed-out:after {
+      background: #333; /* Match background to remove glow */
+      opacity: 0; /* Disable glow effect */
+    }
+
     .youtube-player {
       width: 100%;
       max-width: 372px;
@@ -312,10 +327,12 @@
         gap: 5px;
       }
 
-      .glow-on-hover {
+      .glow-on-hover,
+      .glow-on-hover.greyed-out {
         width: 80%;
-        font-size: 14px;
+        max-width: 220px;
         height: 40px;
+        font-size: 14px;
       }
 
       .youtube-player {
@@ -382,13 +399,26 @@
         justify-content: center;
         gap: 10px;
         max-width: 100%;
-        flex-wrap: wrap;
-        direction: rtl;
+        flex-wrap: nowrap; /* Prevent wrapping */
+        direction: rtl; /* Maintain right-to-left for consistency */
+        align-items: center;
       }
 
-      .glow-on-hover {
+      .glow-on-hover,
+      .glow-on-hover.greyed-out {
         width: 220px;
         max-width: 220px;
+        height: 50px;
+        font-size: 16px;
+      }
+
+      /* Position greyed-out buttons */
+      .social-buttons a:nth-child(4) { /* BUY CD */
+        order: -1; /* Move to the right (left in rtl) */
+      }
+
+      .social-buttons a:nth-child(5) { /* BUY MERCH */
+        order: 4; /* Move to the left (right in rtl) */
       }
     }
   </style>
@@ -430,6 +460,8 @@
     <a href="https://www.youtube.com/channel/UCdH8weXCIfr2rARcInJn3Ew" class="glow-on-hover">YouTube</a>
     <a href="https://open.spotify.com/artist/2EbPx7TorY3TzgiyLzEEjY" class="glow-on-hover">Spotify</a>
     <a href="https://www.instagram.com/r1kas777/" class="glow-on-hover">Instagram</a>
+    <a class="glow-on-hover greyed-out">BUY CD</a>
+    <a class="glow-on-hover greyed-out">BUY MERCH</a>
   </div>
 
   <div class="footer">
