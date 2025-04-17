@@ -80,17 +80,6 @@
       * {
         cursor: none !important;
       }
-      .youtube-player {
-        margin: 0; /* Ensure no margin on desktop */
-      }
-      .countdown {
-        margin-bottom: 0; /* Ensure no margin below countdown */
-        height: auto; /* Let content determine height */
-        line-height: normal; /* Remove fixed line-height */
-      }
-      .countdown-text {
-        margin-bottom: 0; /* Remove gap between countdown-text and countdown */
-      }
     }
 
     /* Animated background lines */
@@ -158,19 +147,20 @@
       font-size: 32px;
       font-weight: bold;
       color: darkgreen;
-      margin-bottom: 5px;
+      margin-bottom: 0; /* Remove gap below "DIRTY ERA DROPS" */
       text-align: center;
     }
 
-    .countdown {
-      font-size: 50px;
+    /* New Countdown Styles */
+    .new-countdown {
+      font-family: 'Bebas Neue', sans-serif;
       font-weight: bold;
-      margin-bottom: 20px;
+      font-size: 50px;
       text-align: center;
-      width: 300px;
-      height: 60px;
-      line-height: 60px;
-      overflow: hidden;
+      margin: 0; /* No margins to prevent gaps */
+      padding: 0; /* No padding to prevent gaps */
+      line-height: 1; /* Tight line-height to match font size */
+      width: 300px; /* Match original width */
     }
 
     .social-buttons {
@@ -248,7 +238,7 @@
       max-width: 372px;
       padding-bottom: 56.25%;
       height: 0;
-      margin: 20px 0;
+      margin: 0; /* Remove margin to eliminate gap */
       overflow: hidden;
       position: relative;
     }
@@ -297,11 +287,9 @@
 
     /* Responsive Adjustments */
     @media screen and (max-width: 768px) {
-      .countdown {
+      .new-countdown {
         font-size: 40px;
         width: 250px;
-        height: 50px;
-        line-height: 50px;
       }
 
       .social-buttons {
@@ -337,11 +325,9 @@
         height: 120px;
       }
 
-      .countdown {
+      .new-countdown {
         font-size: 32px;
         width: 200px;
-        height: 40px;
-        line-height: 40px;
       }
       
       body {
@@ -407,7 +393,7 @@
 
   <!-- Countdown Section -->
   <div class="countdown-text">DIRTY ERA DROPS</div>
-  <div class="countdown" id="countdown">Loading...</div>
+  <div class="new-countdown" id="new-countdown">Loading...</div>
 
   <!-- YouTube Player -->
   <div class="youtube-player">
@@ -436,7 +422,7 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
-    // Countdown Timer
+    // New Countdown Timer
     const countdownDate = new Date("Nov 7, 2025 16:20:00").getTime();
 
     const countdownFunction = setInterval(function () {
@@ -448,11 +434,11 @@
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      document.getElementById("new-countdown").innerHTML = `${days}D ${hours}H ${minutes}M ${seconds}S`;
 
       if (distance < 0) {
         clearInterval(countdownFunction);
-        document.getElementById("countdown").innerHTML = "EXPIRED";
+        document.getElementById("new-countdown").innerHTML = "EXPIRED";
       }
     }, 1000);
 
