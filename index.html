@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -167,12 +166,13 @@
 
     /* Style for header image */
     .header-image {
-      width: 100%;
-      max-width: 500px;
-      height: 150px;
-      object-fit: contain;
+      width: 183px;
+      height: 106px;
       display: block;
       margin-bottom: 10px;
+      object-fit: contain;
+      image-rendering: -webkit-optimize-contrast; /* Improve rendering in Safari and Chrome */
+      -webkit-backface-visibility: hidden; /* Fix for rendering issues */
     }
 
     .countdown-text {
@@ -278,13 +278,50 @@
       width: 400px;
       height: 225px; /* 16:9 aspect ratio for 400px width (400 * 9/16) */
       margin: 10px 0;
+      position: relative;
+      padding-bottom: 56.25%; /* 9/16 = 56.25% to enforce 16:9 aspect ratio */
+      height: 0;
       overflow: hidden;
     }
 
     .youtube-player iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       border: none;
+    }
+
+    /* Overlay Styles */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+      cursor: none !important;
+    }
+
+    .overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .overlay-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 64px;
+      color: #fff;
+      text-align: center;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
 
     /* Footer styles */
@@ -317,9 +354,9 @@
 
       .youtube-player {
         width: 372px;
-        height: 209px; /* 16:9 aspect ratio for 372px width (372 * 9/16) */
+        padding-bottom: 56.25%; /* Maintain 16:9 aspect ratio (372 * 9/16 = 209) */
       }
-      
+
       /* Hide custom cursor on mobile */
       .cursor, .cursor-follower {
         display: none;
@@ -327,12 +364,16 @@
       * {
         cursor: auto !important;
       }
+
+      .overlay-text {
+        font-size: 48px;
+      }
     }
 
     @media screen and (max-width: 480px) {
       .header-image {
-        width: 80%;
-        height: 120px;
+        width: 183px;
+        height: 106px;
       }
 
       .countdown {
@@ -345,13 +386,22 @@
 
       .youtube-player {
         width: 372px;
-        height: 209px; /* Maintain same size as 768px for smaller screens */
+        padding-bottom: 56.25%; /* Maintain 16:9 aspect ratio (372 * 9/16 = 209) */
+      }
+
+      .overlay-text {
+        font-size: 36px;
       }
     }
   </style>
 </head>
 
 <body>
+  <!-- Overlay -->
+  <div class="overlay" id="overlay">
+    <div class="overlay-text">CLICK TO ENTER</div>
+  </div>
+
   <!-- Custom Cursor Elements -->
   <div class="cursor"></div>
   <div class="cursor-follower"></div>
@@ -370,8 +420,11 @@
     <div class="line"></div>
   </div>
 
-  <!-- Header Image -->
-  <img src="https://i.imgur.com/LhdvpjU.png" class="header-image" alt="Skull Image" style="width: 183px; height: 106px;">
+  <!-- Header Image with Fallback -->
+  <picture>
+    <source src="https://i.imgur.com/LhdvpjU.png" type="image/png">
+    <img src="https://i.imgur.com/LhdvpjU.png" class="header-image" alt="Skull Image" width="183" height="106" crossorigin="anonymous" loading="eager" onerror="this.onerror=null; this.src='https://via.placeholder.com/183x106?text=Header+Image+Failed+to+Load';">
+  </picture>
 
   <!-- Countdown Section -->
   <div class="countdown-text">DIRTY ERA DROPS</div>
@@ -379,7 +432,7 @@
 
   <!-- YouTube Player -->
   <div class="youtube-player">
-    <iframe src="https://www.youtube.com/embed/nTeg3yoAU6U?si=R0NsyQOJOnu6Kuhv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe id="youtube-player" src="https://www.youtube.com/embed/nTeg3yoAU6U?si=R0NsyQOJOnu6Kuhv&enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
 
   <!-- Social Media Buttons -->
@@ -416,7 +469,7 @@
     }, 1000);
 
     // Custom Cursor
-    const cursor = document.querySelector('.cursor');
+    const cursor наконец-то = document.querySelector('.cursor');
     const cursorFollower = document.querySelector('.cursor-follower');
     const links = document.querySelectorAll('a, button, .glow-on-hover');
 
@@ -440,6 +493,30 @@
         cursor.classList.remove('active');
         cursorFollower.classList.remove('active');
       });
+    });
+
+    // Overlay and YouTube Autoplay
+    const overlay = document.getElementById('overlay');
+    const youtubeIframe = document.getElementById('youtube-player');
+
+    overlay.addEventListener('click', () => {
+      // Hide overlay with fade-out animation
+      overlay.classList.add('hidden');
+      
+      // Trigger YouTube autoplay using YouTube IFrame Player API
+      youtubeIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+      
+      // Remove overlay from DOM after animation completes
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 1000); // Match the transition duration
+    });
+
+    // Fallback for header image if it fails to load
+    const headerImage = document.querySelector('.header-image');
+    headerImage.addEventListener('error', () => {
+      console.error('Header image failed to load. Switching to fallback.');
+      headerImage.src = 'https://via.placeholder.com/183x106?text=Header+Image+Failed+to+Load';
     });
   </script>
 </body>
