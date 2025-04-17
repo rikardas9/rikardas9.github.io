@@ -17,7 +17,7 @@
       width: 100%;
       height: 100%;
       overflow-x: hidden; /* Prevent horizontal overflow */
-      overflow-y: hidden; /* Prevent vertical scrolling */
+      overflow-y: auto; /* Allow vertical scrolling if needed */
     }
 
     body {
@@ -201,6 +201,10 @@
       font-weight: bold;
       margin-bottom: 15px;
       text-align: center;
+      width: 300px; /* Fixed width to prevent reflow */
+      height: 60px; /* Fixed height to prevent reflow */
+      line-height: 60px; /* Center text vertically */
+      overflow: hidden; /* Prevent overflow from affecting layout */
     }
 
     .social-buttons {
@@ -302,8 +306,8 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100% !important; /* Ensure iframe respects container */
-      height: 100% !important; /* Ensure iframe respects container */
+      width: 100% !important;
+      height: 100% !important;
       border: none;
     }
 
@@ -324,6 +328,9 @@
     @media screen and (max-width: 768px) {
       .countdown {
         font-size: 40px;
+        width: 250px; /* Adjusted for mobile */
+        height: 50px;
+        line-height: 50px;
       }
 
       .social-buttons {
@@ -357,6 +364,9 @@
 
       .countdown {
         font-size: 32px;
+        width: 200px; /* Adjusted for smaller mobile */
+        height: 40px;
+        line-height: 40px;
       }
       
       body {
@@ -374,10 +384,12 @@
         width: 480px !important; /* Explicit width */
         max-width: 480px !important; /* Explicit max-width */
         height: 270px !important; /* Explicit height */
-        padding-bottom: 0; /* Remove aspect ratio padding */
+        padding-bottom: 0 !important; /* Remove aspect ratio padding */
+        position: static; /* Avoid positioning issues */
       }
 
       .youtube-player iframe {
+        position: static !important; /* Avoid absolute positioning issues */
         width: 480px !important; /* Force iframe to match container */
         height: 270px !important; /* Force iframe to match container */
       }
@@ -409,11 +421,11 @@
 
   <!-- Countdown Section -->
   <div class="countdown-text">DIRTY ERA DROPS</div>
-  <div class="countdown" id="countdown"></div>
+  <div class="countdown" id="countdown">Loading...</div>
 
   <!-- YouTube Player -->
   <div class="youtube-player">
-    <iframe id="ytplayer" type="text/html"
+    <iframe id="ytplayer" type="text/html" width="480" height="270"
       src="https://www.youtube.com/embed/nTeg3yoAU6U?autoplay=1&controls=0&loop=1&playlist=nTeg3yoAU6U" 
       title="YouTube video player" frameborder="0" 
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
