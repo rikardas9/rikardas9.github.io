@@ -81,10 +81,15 @@
         cursor: none !important;
       }
       .youtube-player {
-        margin: 0;
+        margin: 0; /* Ensure no margin on desktop */
       }
       .countdown {
-        margin-bottom: 0; /* Remove gap below countdown on desktop */
+        margin-bottom: 0; /* Ensure no margin below countdown */
+        height: auto; /* Let content determine height */
+        line-height: normal; /* Remove fixed line-height */
+      }
+      .countdown-text {
+        margin-bottom: 0; /* Remove gap between countdown-text and countdown */
       }
     }
 
