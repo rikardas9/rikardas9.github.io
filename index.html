@@ -495,31 +495,63 @@
           controls: 0, // Hide controls
           loop: 1, // Loop the video
           playlist: 'nTeg3yoAU6U', // Required for looping
-          mute: 0 // Ensure sound is on (will play after user interaction)
+          modestbranding: 1, // Minimize YouTube branding
+          showinfo: 0, // Hide video title and uploader info (deprecated, but included for older browsers)
+          rel: 0, // Disable related videos
+          iv_load_policy: 3 // Disable annotations
         },
         events: {
-          'onReady': onPlayerReady
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange,
+          'onError': onPlayerError
         }
       });
     }
 
     function onPlayerReady(event) {
       playerReady = true;
-      // Don’t play yet; wait for overlay click
+      event.target.unMute(); // Ensure sound is on
+      console.log('Player is ready');
+    }
+
+    function onPlayerStateChange(event) {
+      console.log('Player state changed to:', event.data);
+      if (event.data === YT.PlayerState.ENDED) {
+        player.playVideo(); // Ensure looping
+      }
+    }
+
+    function onPlayerError(event) {
+      console.error('Player error:', event.data);
     }
 
     // Overlay Click Handler
     const overlay = document.getElementById('overlay');
     overlay.addEventListener('click', () => {
-      // Fade out overlay
+      // Start fading out the overlay
       overlay.classList.add('hidden');
-      
-      // Start the video with sound after overlay fades out
-      if (playerReady) {
-        setTimeout(() => {
-          player.playVideo();
-        }, 1000); // Match the fade-out duration (1s)
-      }
+
+      // Wait for the fade-out transition to complete before playing
+      overlay.addEventListener('transitionend', () => {
+        if (playerReady && player) {
+          try {
+            player.playVideo(); // Start the video
+            player.unMute(); // Ensure sound is on
+            console.log('Video should be playing now');
+          } catch (e) {
+            console.error('Error playing video:', e);
+          }
+        } else {
+          console.error('Player not ready yet');
+          // Fallback: Retry after a short delay
+          setTimeout(() => {
+            if (playerReady && player) {
+              player.playVideo();
+              player.unMute();
+            }
+          }, 500);
+        }
+      }, { once: true }); // Ensure the event listener runs only once
     });
 
     // Countdown Timer
@@ -573,7 +605,7 @@
 
     // Ensure YouTube player dimensions on resize
     window.addEventListener('resize', () => {
-      if (playerReady) {
+      if (playerReady && player) {
         const width = window.innerWidth >= 769 ? 400 : 372;
         const height = window.innerWidth >= 769 ? 225 : 209;
         player.setSize(width, height);
