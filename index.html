@@ -432,7 +432,7 @@
 
   <!-- YouTube Player -->
   <div class="youtube-player">
-    <iframe id="youtube-player" src="https://www.youtube.com/embed/nTeg3yoAU6U?si=R0NsyQOJOnu6Kuhv&enablejsapi=1&mute=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe id="youtube-player" src="https://www.youtube.com/embed/nTeg3yoAU6U?si=R0NsyQOJOnu6Kuhv&enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
 
   <!-- Social Media Buttons -->
@@ -503,14 +503,22 @@
       // Hide overlay with fade-out animation
       overlay.classList.add('hidden');
       
-      // Trigger YouTube autoplay using YouTube IFrame Player API
+      // Trigger YouTube autoplay with sound using YouTube IFrame Player API
       youtubeIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-      
-      // Fallback: If postMessage fails (common on mobile), attempt to reload iframe with autoplay
+
+      // Fallback for mobile: If postMessage fails to play with sound, reload iframe with autoplay
       setTimeout(() => {
-        if (youtubeIframe.src.indexOf('autoplay=1') === -1) {
-          youtubeIframe.src += '&autoplay=1';
-        }
+        // Check if the video is playing by attempting to get player state (requires API readiness)
+        youtubeIframe.contentWindow.postMessage('{"event":"listening","id":"check-state"}', '*');
+        window.addEventListener('message', (event) => {
+          if (event.data && event.data.event === 'infoDelivery' && event.data.id === 'check-state') {
+            const state = event.data.info ? event.data.info.playerState : -1;
+            // If state is not playing (1), reload iframe with autoplay
+            if (state !== 1 && youtubeIframe.src.indexOf('autoplay=1') === -1) {
+              youtubeIframe.src += '&autoplay=1';
+            }
+          }
+        });
       }, 500);
 
       // Remove overlay from DOM after animation completes
