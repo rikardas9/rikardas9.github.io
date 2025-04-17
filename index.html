@@ -166,7 +166,7 @@
       flex-direction: column;
       gap: 10px;
       align-items: center;
-      margin-bottom: 15px;
+      margin-bottom: 0; /* Remove gap between buttons and footer */
       width: 100%;
       max-width: 220px;
     }
@@ -254,7 +254,7 @@
       font-size: 18px;
       letter-spacing: 1px;
       z-index: 10;
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 0.5s ease, transform 0.3s ease;
     }
 
     .unmute-button:hover {
@@ -269,8 +269,8 @@
     }
 
     .footer {
-      margin-top: auto;
-      padding: 20px 0;
+      margin-top: 20px; /* 20px gap between last button and copyright */
+      padding: 0; /* Remove padding to eliminate extra gap */
       text-align: center;
       width: 100%;
     }
@@ -278,6 +278,7 @@
     .copyright {
       font-size: 14px;
       color: #888;
+      margin: 0; /* Ensure no extra margins */
     }
 
     @media screen and (max-width: 768px) {
@@ -306,7 +307,6 @@
       .social-buttons {
         width: 100%;
         align-items: center;
-        margin-bottom: 5px;
         gap: 5px;
       }
 
@@ -334,7 +334,7 @@
       }
 
       .footer {
-        padding: 5px 0;
+        margin-top: 20px; /* Consistent 20px gap on mobile */
       }
 
       .copyright {
