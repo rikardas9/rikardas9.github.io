@@ -112,7 +112,7 @@
       width: 100%;
       top: -50%;
       left: 0;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 75%, #ffffff 100%);
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 75%, #ffffff 100 przenica%);
       animation: drop 7s 0s infinite;
       animation-fill-mode: forwards;
       animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
@@ -194,17 +194,21 @@
       color: darkgreen;
       margin-bottom: 5px;
       text-align: center;
+      position: relative;
+      z-index: 10; /* Ensure it’s above the YouTube player */
     }
 
     .countdown {
       font-size: 50px;
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 20px; /* Increased spacing to prevent overlap */
       text-align: center;
       width: 300px; /* Fixed width to prevent reflow */
       height: 60px; /* Fixed height to prevent reflow */
       line-height: 60px; /* Center text vertically */
       overflow: hidden; /* Prevent overflow from affecting layout */
+      position: relative;
+      z-index: 10; /* Ensure it’s above the YouTube player */
     }
 
     .social-buttons {
@@ -215,6 +219,8 @@
       margin-bottom: 15px;
       width: 100%;
       max-width: 220px; /* Limit button width */
+      position: relative;
+      z-index: 10; /* Ensure buttons are above other elements */
     }
 
     .glow-on-hover {
@@ -297,18 +303,10 @@
       max-width: 372px; /* Default for mobile */
       padding-bottom: 56.25%; /* 16:9 aspect ratio (9/16 = 0.5625) */
       height: 0;
-      margin: 10px 0;
+      margin: 20px 0; /* Increased spacing to prevent overlap */
       overflow: hidden;
       position: relative;
-    }
-
-    .youtube-player iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100% !important;
-      height: 100% !important;
-      border: none;
+      z-index: 5; /* Lower z-index to prevent overlap with countdown */
     }
 
     /* Footer styles */
@@ -317,6 +315,8 @@
       padding: 20px 0;
       text-align: center;
       width: 100%;
+      position: relative;
+      z-index: 10; /* Ensure footer is above other elements */
     }
 
     .copyright {
@@ -385,13 +385,6 @@
         max-width: 480px !important; /* Explicit max-width */
         height: 270px !important; /* Explicit height */
         padding-bottom: 0 !important; /* Remove aspect ratio padding */
-        position: static; /* Avoid positioning issues */
-      }
-
-      .youtube-player iframe {
-        position: static !important; /* Avoid absolute positioning issues */
-        width: 480px !important; /* Force iframe to match container */
-        height: 270px !important; /* Force iframe to match container */
       }
     }
   </style>
@@ -425,7 +418,7 @@
 
   <!-- YouTube Player -->
   <div class="youtube-player">
-    <iframe id="ytplayer" type="text/html" width="480" height="270"
+    <iframe id="ytplayer" type="text/html" width="372" height="209"
       src="https://www.youtube.com/embed/nTeg3yoAU6U?autoplay=1&controls=0&loop=1&playlist=nTeg3yoAU6U" 
       title="YouTube video player" frameborder="0" 
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -494,6 +487,26 @@
         });
       });
     }
+
+    // Ensure YouTube player dimensions on desktop
+    window.addEventListener('load', () => {
+      const player = document.getElementById('ytplayer');
+      if (window.innerWidth >= 769) {
+        player.width = 480;
+        player.height = 270;
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      const player = document.getElementById('ytplayer');
+      if (window.innerWidth >= 769) {
+        player.width = 480;
+        player.height = 270;
+      } else {
+        player.width = 372;
+        player.height = 209;
+      }
+    });
   </script>
 </body>
 
