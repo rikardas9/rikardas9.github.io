@@ -28,9 +28,11 @@
       font-family: 'Bebas Neue', sans-serif;
       color: #fff;
       position: relative;
-      overflow: hidden;
+      overflow-y: auto; /* Allow vertical scrolling if needed */
       padding-top: 10px;
       min-height: 100vh;
+      width: 100%;
+      max-width: 100vw; /* Ensure body doesn’t exceed viewport width */
     }
 
     /* Custom Cursor Styles (Disabled by default on desktop for better usability) */
@@ -207,11 +209,13 @@
       gap: 10px;
       align-items: center;
       margin-bottom: 15px;
-      max-width: 220px; /* Limit button width on desktop */
+      width: 100%;
+      max-width: 220px; /* Limit button width */
     }
 
     .glow-on-hover {
-      width: 220px;
+      width: 100%;
+      max-width: 220px;
       height: 50px;
       border: none;
       outline: none;
@@ -367,7 +371,7 @@
     /* Desktop-specific adjustments */
     @media screen and (min-width: 769px) {
       .youtube-player {
-        max-width: 240px; /* Reduced by 50% from 480px */
+        max-width: 200px; /* Reduced from 240px to 200px for better layout */
       }
     }
   </style>
