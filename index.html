@@ -10,13 +10,13 @@
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box !important;
-      cursor: none !important; /* Disable default cursor */
+      box-sizing: border-box;
     }
 
     html, body {
       width: 100%;
       height: 100%;
+      overflow-x: hidden; /* Prevent horizontal overflow on desktop */
     }
 
     body {
@@ -33,7 +33,7 @@
       min-height: 100vh;
     }
 
-    /* Custom Cursor Styles */
+    /* Custom Cursor Styles (Disabled by default on desktop for better usability) */
     .cursor {
       width: 20px;
       height: 20px;
@@ -44,6 +44,7 @@
       mix-blend-mode: difference;
       z-index: 9999;
       transition: transform 0.3s ease;
+      display: none; /* Disabled by default on desktop */
     }
     
     .cursor-follower {
@@ -56,6 +57,7 @@
       mix-blend-mode: difference;
       z-index: 9998;
       transition: transform 0.6s ease, width 0.3s ease, height 0.3s ease;
+      display: none; /* Disabled by default on desktop */
     }
     
     .cursor.active {
@@ -69,15 +71,25 @@
       height: 30px;
     }
 
+    /* Enable custom cursor only on larger screens (e.g., >768px) */
+    @media screen and (min-width: 769px) {
+      .cursor, .cursor-follower {
+        display: block;
+      }
+      * {
+        cursor: none !important;
+      }
+    }
+
     /* Animated background lines */
     .lines {
       position: absolute;
       top: 0;
-      left: 0;
-      right: 0;
+      left: 50%;
+      transform: translateX(-50%);
       height: 100%;
-      margin: auto;
       width: 90vw;
+      max-width: 1200px; /* Limit width on very large screens */
       display: flex;
       justify-content: space-between;
       z-index: -1;
@@ -195,6 +207,7 @@
       gap: 10px;
       align-items: center;
       margin-bottom: 15px;
+      max-width: 220px; /* Limit button width on desktop */
     }
 
     .glow-on-hover {
@@ -204,7 +217,6 @@
       outline: none;
       color: #fff;
       background: #111;
-      cursor: none !important;
       position: relative;
       z-index: 0;
       border-radius: 10px;
@@ -215,6 +227,7 @@
       align-items: center;
       justify-content: center;
       text-decoration: none;
+      transition: all 0.3s ease;
     }
 
     .glow-on-hover:before {
@@ -262,11 +275,9 @@
       0% {
         background-position: 0 0;
       }
-
       50% {
         background-position: 400% 0;
       }
-
       100% {
         background-position: 0 0;
       }
@@ -275,9 +286,10 @@
     /* Style for YouTube Player */
     .youtube-player {
       width: 400px;
-      height: 225px; /* 16:9 aspect ratio for 400px width (400 * 9/16) */
+      height: 225px; /* 16:9 aspect ratio */
       margin: 10px 0;
       overflow: hidden;
+      position: relative;
     }
 
     .youtube-player iframe {
@@ -299,6 +311,7 @@
       color: #888;
     }
 
+    /* Responsive Adjustments */
     @media screen and (max-width: 768px) {
       .countdown {
         font-size: 40px;
@@ -316,7 +329,7 @@
 
       .youtube-player {
         width: 372px;
-        height: 209px; /* 16:9 aspect ratio for 372px width (372 * 9/16) */
+        height: 209px;
       }
       
       /* Hide custom cursor on mobile */
@@ -344,7 +357,18 @@
 
       .youtube-player {
         width: 372px;
-        height: 209px; /* Maintain same size as 768px for smaller screens */
+        height: 209px;
+      }
+    }
+
+    /* Desktop-specific adjustments */
+    @media screen and (min-width: 769px) {
+      .youtube-player {
+        max-width: 640px; /* Allow larger player on desktop */
+        height: auto; /* Maintain aspect ratio */
+      }
+      .youtube-player iframe {
+        aspect-ratio: 16 / 9; /* Ensure 16:9 ratio on desktop */
       }
     }
   </style>
@@ -419,32 +443,34 @@
       }
     }, 1000);
 
-    // Custom Cursor
+    // Custom Cursor (Only runs if enabled on desktop)
     const cursor = document.querySelector('.cursor');
     const cursorFollower = document.querySelector('.cursor-follower');
     const links = document.querySelectorAll('a, button, .glow-on-hover');
 
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      
-      setTimeout(() => {
-        cursorFollower.style.left = e.clientX + 'px';
-        cursorFollower.style.top = e.clientY + 'px';
-      }, 100);
-    });
+    if (cursor && cursorFollower) {
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        setTimeout(() => {
+          cursorFollower.style.left = e.clientX + 'px';
+          cursorFollower.style.top = e.clientY + 'px';
+        }, 100);
+      });
 
-    links.forEach(link => {
-      link.addEventListener('mouseenter', () => {
-        cursor.classList.add('active');
-        cursorFollower.classList.add('active');
+      links.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          cursor.classList.add('active');
+          cursorFollower.classList.add('active');
+        });
+        
+        link.addEventListener('mouseleave', () => {
+          cursor.classList.remove('active');
+          cursorFollower.classList.remove('active');
+        });
       });
-      
-      link.addEventListener('mouseleave', () => {
-        cursor.classList.remove('active');
-        cursorFollower.classList.remove('active');
-      });
-    });
+    }
   </script>
 </body>
 
