@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dirty Era</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
   <style>
     * {
       margin: 0;
@@ -12,10 +12,12 @@
       box-sizing: border-box !important;
       cursor: none !important;
     }
+
     html, body {
       width: 100%;
       height: 100%;
     }
+
     body {
       display: flex;
       flex-direction: column;
@@ -25,17 +27,98 @@
       font-family: 'Bebas Neue', sans-serif;
       color: #fff;
       position: relative;
-      overflow-x: hidden;
-      padding-top: 20px;
+      overflow: hidden;
+      padding-top: 10px;
       min-height: 100vh;
     }
 
-    .cursor, .cursor-follower {
-      display: none;
+    .cursor {
+      width: 20px;
+      height: 20px;
+      border: 1px solid white;
+      border-radius: 50%;
+      position: absolute;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      z-index: 9999;
+      transition: transform 0.3s ease;
+    }
+
+    .cursor-follower {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      position: absolute;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      z-index: 9998;
+      transition: transform 0.6s ease, width 0.3s ease, height 0.3s ease;
+    }
+
+    .cursor.active {
+      transform: scale(1.5);
+      background-color: white;
+    }
+
+    .cursor-follower.active {
+      transform: scale(0.1);
+      width: 30px;
+      height: 30px;
+    }
+
+    .lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      margin: auto;
+      width: 90vw;
+      display: flex;
+      justify-content: space-between;
+      z-index: -1;
+    }
+
+    .line {
+      position: relative;
+      width: 1px;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .line::after {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 15vh;
+      width: 100%;
+      top: -50%;
+      left: 0;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 75%, #ffffff 100%);
+      animation: drop 7s 0s infinite;
+      animation-fill-mode: forwards;
+      animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
+    }
+
+    .line:nth-child(1)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF4500 75%, #FF4500 100%); animation-delay: 0.5s; }
+    .line:nth-child(2)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #32CD32 75%, #32CD32 100%); animation-delay: 1s; }
+    .line:nth-child(3)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #1E90FF 75%, #1E90FF 100%); animation-delay: 1.5s; }
+    .line:nth-child(4)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FFD700 75%, #FFD700 100%); animation-delay: 2s; }
+    .line:nth-child(5)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #8A2BE2 75%, #8A2BE2 100%); animation-delay: 2.5s; }
+    .line:nth-child(6)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #20B2AA 75%, #20B2AA 100%); animation-delay: 3s; }
+    .line:nth-child(7)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #DC143C 75%, #DC143C 100%); animation-delay: 3.5s; }
+    .line:nth-child(8)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00FA9A 75%, #00FA9A 100%); animation-delay: 4s; }
+    .line:nth-child(9)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF1493 75%, #FF1493 100%); animation-delay: 4.5s; }
+    .line:nth-child(10)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00BFFF 75%, #00BFFF 100%); animation-delay: 5s; }
+
+    @keyframes drop {
+      0% { top: -50%; }
+      100% { top: 110%; }
     }
 
     .header-image {
-      width: 140px;
+      width: 150px;
       height: auto;
       object-fit: contain;
       display: block;
@@ -51,20 +134,9 @@
 
     .countdown {
       font-size: 50px;
+      font-weight: bold;
       margin-bottom: 15px;
       text-align: center;
-    }
-
-    .youtube-player {
-      width: 400px;
-      height: 225px;
-      margin: 10px 0;
-    }
-
-    .youtube-player iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
     }
 
     .social-buttons {
@@ -72,14 +144,18 @@
       flex-direction: column;
       gap: 10px;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     .glow-on-hover {
       width: 220px;
       height: 50px;
+      border: none;
       color: #fff;
       background: #111;
+      cursor: none !important;
+      position: relative;
+      z-index: 0;
       border-radius: 10px;
       font-family: 'Bebas Neue', sans-serif;
       font-weight: bold;
@@ -88,14 +164,11 @@
       align-items: center;
       justify-content: center;
       text-decoration: none;
-      position: relative;
-      z-index: 0;
     }
 
     .glow-on-hover:before {
       content: '';
-      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00,
-        #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
       position: absolute;
       top: -2px;
       left: -2px;
@@ -110,11 +183,10 @@
       border-radius: 10px;
     }
 
-    .glow-on-hover:hover:before {
-      opacity: 1;
-    }
+    .glow-on-hover:hover:before { opacity: 1; }
 
     .glow-on-hover:after {
+      z-index: -1;
       content: '';
       position: absolute;
       width: 100%;
@@ -122,7 +194,6 @@
       background: #111;
       left: 0;
       top: 0;
-      z-index: -1;
       border-radius: 10px;
     }
 
@@ -130,6 +201,19 @@
       0% { background-position: 0 0; }
       50% { background-position: 400% 0; }
       100% { background-position: 0 0; }
+    }
+
+    .youtube-player {
+      width: 400px;
+      height: 225px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    .youtube-player iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     .footer {
@@ -144,54 +228,46 @@
       color: #888;
     }
 
-    @media screen and (max-width: 480px) {
-      .header-image {
-        width: 100px;
-        margin-bottom: 8px;
-      }
-      .countdown {
-        font-size: 32px;
-      }
-      .youtube-player {
-        width: 360px;
-        height: 202px;
-      }
+    @media screen and (max-width: 768px) {
       .glow-on-hover {
-        width: 90%;
+        width: 80%;
         font-size: 14px;
       }
-    }
 
-    #overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-      color: white;
-      font-size: 24px;
-      text-align: center;
-      padding: 20px;
-      font-family: 'Bebas Neue', sans-serif;
+      .youtube-player {
+        width: 372px;
+        height: 209px;
+      }
+
+      .cursor, .cursor-follower {
+        display: none;
+      }
+      * { cursor: auto !important; }
     }
   </style>
 </head>
+
 <body>
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
 
-  <div id="overlay">Click anywhere to enable sound</div>
+  <div class="lines">
+    <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+  </div>
 
-  <img src="https://i.imgur.com/LhdvpjU.png" class="header-image" alt="Logo">
+  <img src="https://i.imgur.com/LhdvpjU.png" class="header-image" alt="Skull Image" />
 
   <div class="countdown-text">DIRTY ERA DROPS</div>
   <div class="countdown" id="countdown"></div>
 
   <div class="youtube-player">
-    <iframe id="ytplayer" src="https://www.youtube.com/embed/nTeg3yoAU6U?autoplay=1&mute=1&enablejsapi=1&rel=0&controls=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <iframe id="youtube-iframe"
+      src="https://www.youtube.com/embed/nTeg3yoAU6U?autoplay=1&mute=1&enablejsapi=1"
+      title="YouTube video player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
   </div>
 
   <div class="social-buttons">
@@ -204,47 +280,77 @@
     <div class="copyright">© Money Dance Records '25</div>
   </div>
 
+  <!-- Overlay for Click-to-Unmute -->
+  <div id="overlay" style="
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 5px;
+    cursor: pointer;
+  ">
+    ENTER
+  </div>
+
   <script>
     // Countdown Timer
     const countdownDate = new Date("Nov 7, 2025 16:20:00").getTime();
-    const countdownFunction = setInterval(function () {
+    const countdownFunction = setInterval(() => {
       const now = new Date().getTime();
       const distance = countdownDate - now;
-
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
       document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
       if (distance < 0) {
         clearInterval(countdownFunction);
         document.getElementById("countdown").innerHTML = "EXPIRED";
       }
     }, 1000);
 
-    // Unmute on click
-    let unmuted = false;
-    document.body.addEventListener('click', () => {
-      if (!unmuted) {
-        const iframe = document.getElementById("ytplayer");
-        const player = new YT.Player(iframe, {
-          events: {
-            'onReady': (event) => {
-              event.target.unMute();
-            }
-          }
-        });
-        document.getElementById("overlay").style.display = "none";
-        unmuted = true;
-      }
+    // Cursor interaction
+    const cursor = document.querySelector('.cursor');
+    const follower = document.querySelector('.cursor-follower');
+    const links = document.querySelectorAll('a, button, .glow-on-hover');
+
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      setTimeout(() => {
+        follower.style.left = e.clientX + 'px';
+        follower.style.top = e.clientY + 'px';
+      }, 100);
     });
 
-    // Load YouTube Iframe API
-    var tag = document.createElement('script');
+    links.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        cursor.classList.add('active');
+        follower.classList.add('active');
+      });
+      link.addEventListener('mouseleave', () => {
+        cursor.classList.remove('active');
+        follower.classList.remove('active');
+      });
+    });
+
+    // YouTube API script for unmute control
+    const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     document.body.appendChild(tag);
+
+    // Overlay click to unmute
+    document.getElementById('overlay').addEventListener('click', function () {
+      const iframe = document.getElementById('youtube-iframe');
+      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+      this.style.display = 'none';
+    });
   </script>
 </body>
 </html>
