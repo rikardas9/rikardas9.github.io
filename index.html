@@ -166,12 +166,12 @@
 
     /* Style for header image */
     .header-image {
-      width: 100%;
-      max-width: 500px;
-      height: 150px;
-      object-fit: contain;
+      width: 183px;
+      height: 106px;
       display: block;
       margin-bottom: 10px;
+      object-fit: contain;
+      image-rendering: -webkit-optimize-contrast; /* Improve rendering in Safari */
     }
 
     .countdown-text {
@@ -274,8 +274,8 @@
 
     /* Style for YouTube Player */
     .youtube-player {
-      width: 640px;
-      height: 360px; /* 16:9 aspect ratio for 640px width (640 * 9/16) */
+      width: 372px;
+      height: 209px; /* 16:9 aspect ratio for 372px width (372 * 9/16) */
       margin: 10px 0;
       overflow: hidden;
     }
@@ -345,10 +345,7 @@
         font-size: 14px;
       }
 
-      .youtube-player {
-        width: 372px;
-        height: 209px; /* 16:9 aspect ratio for 372px width (372 * 9/16) */
-      }
+      /* No need to redefine youtube-player size since it’s the same */
       
       /* Hide custom cursor on mobile */
       .cursor, .cursor-follower {
@@ -365,8 +362,8 @@
 
     @media screen and (max-width: 480px) {
       .header-image {
-        width: 80%;
-        height: 120px;
+        width: 183px;
+        height: 106px;
       }
 
       .countdown {
@@ -377,10 +374,7 @@
         padding-top: 5px;
       }
 
-      .youtube-player {
-        width: 372px;
-        height: 209px; /* Maintain same size as 768px for smaller screens */
-      }
+      /* No need to redefine youtube-player size since it’s the same */
 
       .overlay-text {
         font-size: 36px;
@@ -414,7 +408,7 @@
   </div>
 
   <!-- Header Image -->
-  <img src="https://i.imgur.com/LhdvpjU.png" class="header-image" alt="Skull Image" style="width: 183px; height: 106px;">
+  <img src="https://i.imgur.com/LhdvpjU.png" class="header-image" alt="Skull Image" width="183" height="106" crossorigin="anonymous" loading="eager">
 
   <!-- Countdown Section -->
   <div class="countdown-text">DIRTY ERA DROPS</div>
