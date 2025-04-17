@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Dirty Era</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
@@ -354,6 +354,7 @@
       color: #888;
     }
 
+    /* Block rotation on mobile */
     @media screen and (max-width: 768px) {
       .countdown {
         font-size: 40px;
@@ -381,6 +382,27 @@
       * {
         cursor: auto !important;
       }
+
+      /* Enforce portrait orientation */
+      @media (orientation: landscape) {
+        body {
+          display: none; /* Hide content in landscape mode */
+        }
+
+        /* Show rotate message */
+        .rotate-message {
+          display: flex !important;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background: #000;
+          color: #fff;
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 24px;
+          text-align: center;
+          padding: 20px;
+        }
+      }
     }
 
     @media screen and (max-width: 480px) {
@@ -402,10 +424,26 @@
         padding-bottom: 56.25%; /* Maintain 16:9 aspect ratio (372 * 9/16 = 209) */
       }
     }
+
+    /* Rotate message (hidden by default) */
+    .rotate-message {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10000;
+    }
   </style>
 </head>
 
 <body>
+  <!-- Rotate Message for Landscape Mode -->
+  <div class="rotate-message">
+    Please rotate your device to portrait mode to view this site.
+  </div>
+
   <!-- Custom Cursor Elements -->
   <div class="cursor"></div>
   <div class="cursor-follower"></div>
@@ -518,6 +556,13 @@
       console.error('Header image failed to load. Switching to fallback.');
       headerImage.src = 'https://via.placeholder.com/183x106?text=Header+Image+Failed+to+Load';
     });
+
+    // Attempt to lock orientation to portrait on mobile
+    if (window.screen && window.screen.orientation && window.screen.orientation.lock) {
+      window.screen.orientation.lock('portrait').catch(err => {
+        console.warn('Orientation lock failed:', err);
+      });
+    }
   </script>
 </body>
 
