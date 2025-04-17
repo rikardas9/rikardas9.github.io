@@ -112,7 +112,7 @@
       width: 100%;
       top: -50%;
       left: 0;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 75%, #ffffff 100 przenica%);
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 75%, #ffffff 100%);
       animation: drop 7s 0s infinite;
       animation-fill-mode: forwards;
       animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
@@ -194,21 +194,17 @@
       color: darkgreen;
       margin-bottom: 5px;
       text-align: center;
-      position: relative;
-      z-index: 10; /* Ensure it’s above the YouTube player */
     }
 
     .countdown {
       font-size: 50px;
       font-weight: bold;
-      margin-bottom: 20px; /* Increased spacing to prevent overlap */
+      margin-bottom: 20px;
       text-align: center;
       width: 300px; /* Fixed width to prevent reflow */
       height: 60px; /* Fixed height to prevent reflow */
       line-height: 60px; /* Center text vertically */
       overflow: hidden; /* Prevent overflow from affecting layout */
-      position: relative;
-      z-index: 10; /* Ensure it’s above the YouTube player */
     }
 
     .social-buttons {
@@ -219,8 +215,6 @@
       margin-bottom: 15px;
       width: 100%;
       max-width: 220px; /* Limit button width */
-      position: relative;
-      z-index: 10; /* Ensure buttons are above other elements */
     }
 
     .glow-on-hover {
@@ -303,10 +297,8 @@
       max-width: 372px; /* Default for mobile */
       padding-bottom: 56.25%; /* 16:9 aspect ratio (9/16 = 0.5625) */
       height: 0;
-      margin: 20px 0; /* Increased spacing to prevent overlap */
+      margin: 20px 0;
       overflow: hidden;
-      position: relative;
-      z-index: 5; /* Lower z-index to prevent overlap with countdown */
     }
 
     /* Footer styles */
@@ -315,8 +307,6 @@
       padding: 20px 0;
       text-align: center;
       width: 100%;
-      position: relative;
-      z-index: 10; /* Ensure footer is above other elements */
     }
 
     .copyright {
@@ -381,10 +371,24 @@
     /* Desktop-specific adjustments */
     @media screen and (min-width: 769px) {
       .youtube-player {
-        width: 480px !important; /* Explicit width */
-        max-width: 480px !important; /* Explicit max-width */
-        height: 270px !important; /* Explicit height */
+        width: 400px !important; /* Explicit width as requested */
+        max-width: 400px !important; /* Explicit max-width */
+        height: 225px !important; /* Explicit height as requested */
         padding-bottom: 0 !important; /* Remove aspect ratio padding */
+      }
+
+      .social-buttons {
+        flex-direction: row; /* Arrange buttons horizontally */
+        justify-content: center; /* Center the buttons */
+        gap: 10px;
+        max-width: 100%; /* Allow buttons to take full width */
+        flex-wrap: wrap; /* Allow wrapping if needed */
+        direction: rtl; /* Right-to-left order: Instagram, Spotify, YouTube */
+      }
+
+      .glow-on-hover {
+        width: 220px; /* Fixed width for buttons */
+        max-width: 220px;
       }
     }
   </style>
@@ -492,16 +496,16 @@
     window.addEventListener('load', () => {
       const player = document.getElementById('ytplayer');
       if (window.innerWidth >= 769) {
-        player.width = 480;
-        player.height = 270;
+        player.width = 400; /* Updated to 400px as requested */
+        player.height = 225; /* Updated to 225px as requested */
       }
     });
 
     window.addEventListener('resize', () => {
       const player = document.getElementById('ytplayer');
       if (window.innerWidth >= 769) {
-        player.width = 480;
-        player.height = 270;
+        player.width = 400; /* Updated to 400px as requested */
+        player.height = 225; /* Updated to 225px as requested */
       } else {
         player.width = 372;
         player.height = 209;
