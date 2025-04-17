@@ -285,14 +285,19 @@
 
     /* Style for YouTube Player */
     .youtube-player {
-      width: 400px;
-      height: 225px; /* 16:9 aspect ratio */
+      position: relative;
+      width: 100%;
+      max-width: 400px; /* Default max-width for smaller screens */
+      padding-bottom: 56.25%; /* 16:9 aspect ratio (9/16 = 0.5625) */
+      height: 0;
       margin: 10px 0;
       overflow: hidden;
-      position: relative;
     }
 
     .youtube-player iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       border: none;
@@ -328,8 +333,7 @@
       }
 
       .youtube-player {
-        width: 372px;
-        height: 209px;
+        max-width: 372px;
       }
       
       /* Hide custom cursor on mobile */
@@ -356,19 +360,14 @@
       }
 
       .youtube-player {
-        width: 372px;
-        height: 209px;
+        max-width: 372px;
       }
     }
 
     /* Desktop-specific adjustments */
     @media screen and (min-width: 769px) {
       .youtube-player {
-        max-width: 640px; /* Allow larger player on desktop */
-        height: auto; /* Maintain aspect ratio */
-      }
-      .youtube-player iframe {
-        aspect-ratio: 16 / 9; /* Ensure 16:9 ratio on desktop */
+        max-width: 640px; /* Larger player on desktop */
       }
     }
   </style>
@@ -402,7 +401,7 @@
 
   <!-- YouTube Player -->
   <div class="youtube-player">
-    <iframe id="ytplayer" type="text/html" width="400" height="225" 
+    <iframe id="ytplayer" type="text/html"
       src="https://www.youtube.com/embed/nTeg3yoAU6U?autoplay=1&controls=0&loop=1&playlist=nTeg3yoAU6U" 
       title="YouTube video player" frameborder="0" 
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
