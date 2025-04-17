@@ -28,7 +28,8 @@
       font-family: 'Bebas Neue', sans-serif;
       color: #fff;
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden; /* Prevent horizontal scrolling */
+      overflow-y: auto; /* Allow vertical scrolling */
       padding-top: 10px;
       min-height: 100vh;
     }
@@ -293,35 +294,52 @@
       border: none;
     }
 
-    /* Overlay Styles */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
+    /* Play with Sound Button */
+    .play-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      cursor: none !important;
+      position: relative;
+      z-index: 0;
+    }
+
+    .play-button:before {
+      content: '';
+      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      animation: glowing 20s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      border-radius: 5px;
+    }
+
+    .play-button:hover:before {
+      opacity: 1;
+    }
+
+    .play-button:after {
+      z-index: -1;
+      content: '';
+      position: absolute;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      opacity: 1;
-      transition: opacity 1s ease-in-out;
-      cursor: none !important;
-    }
-
-    .overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .overlay-text {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 64px;
-      color: #fff;
-      text-align: center;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      background: #111;
+      left: 0;
+      top: 0;
+      border-radius: 5px;
     }
 
     /* Footer styles */
@@ -364,10 +382,6 @@
       * {
         cursor: auto !important;
       }
-
-      .overlay-text {
-        font-size: 48px;
-      }
     }
 
     @media screen and (max-width: 480px) {
@@ -388,20 +402,11 @@
         width: 372px;
         padding-bottom: 56.25%; /* Maintain 16:9 aspect ratio (372 * 9/16 = 209) */
       }
-
-      .overlay-text {
-        font-size: 36px;
-      }
     }
   </style>
 </head>
 
 <body>
-  <!-- Overlay -->
-  <div class="overlay" id="overlay">
-    <div class="overlay-text">CLICK TO ENTER</div>
-  </div>
-
   <!-- Custom Cursor Elements -->
   <div class="cursor"></div>
   <div class="cursor-follower"></div>
@@ -432,7 +437,8 @@
 
   <!-- YouTube Player -->
   <div class="youtube-player">
-    <iframe id="youtube-player" src="https://www.youtube.com/embed/nTeg3yoAU6U?si=R0NsyQOJOnu6Kuhv&enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe id="youtube-player" src="https://www.youtube.com/embed/nTeg3yoAU6U?si=R0NsyQOJOnu6Kuhv&enablejsapi=1&autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <button class="play-button" id="play-button">Play with Sound</button>
   </div>
 
   <!-- Social Media Buttons -->
@@ -471,7 +477,7 @@
     // Custom Cursor
     const cursor = document.querySelector('.cursor');
     const cursorFollower = document.querySelector('.cursor-follower');
-    const links = document.querySelectorAll('a, button, .glow-on-hover');
+    const links = document.querySelectorAll('a, button, .glow-on-hover, .play-button');
 
     document.addEventListener('mousemove', (e) => {
       cursor.style.left = e.clientX + 'px';
@@ -495,36 +501,16 @@
       });
     });
 
-    // Overlay and YouTube Autoplay
-    const overlay = document.getElementById('overlay');
+    // Play with Sound Button
+    const playButton = document.getElementById('play-button');
     const youtubeIframe = document.getElementById('youtube-player');
 
-    overlay.addEventListener('click', () => {
-      // Hide overlay with fade-out animation
-      overlay.classList.add('hidden');
-      
-      // Trigger YouTube autoplay with sound using YouTube IFrame Player API
+    playButton.addEventListener('click', () => {
+      // Unmute and play the video
+      youtubeIframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
       youtubeIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-
-      // Fallback for mobile: If postMessage fails to play with sound, reload iframe with autoplay
-      setTimeout(() => {
-        // Check if the video is playing by attempting to get player state (requires API readiness)
-        youtubeIframe.contentWindow.postMessage('{"event":"listening","id":"check-state"}', '*');
-        window.addEventListener('message', (event) => {
-          if (event.data && event.data.event === 'infoDelivery' && event.data.id === 'check-state') {
-            const state = event.data.info ? event.data.info.playerState : -1;
-            // If state is not playing (1), reload iframe with autoplay
-            if (state !== 1 && youtubeIframe.src.indexOf('autoplay=1') === -1) {
-              youtubeIframe.src += '&autoplay=1';
-            }
-          }
-        });
-      }, 500);
-
-      // Remove overlay from DOM after animation completes
-      setTimeout(() => {
-        overlay.style.display = 'none';
-      }, 1000); // Match the transition duration
+      // Hide the button after clicking
+      playButton.style.display = 'none';
     });
 
     // Fallback for header image if it fails to load
