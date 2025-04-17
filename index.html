@@ -35,6 +35,42 @@
       max-width: 100vw; /* Ensure body doesn’t exceed viewport width */
     }
 
+    /* Overlay Screen */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9); /* Semi-transparent black background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000; /* Ensure it’s above all other elements */
+      opacity: 1;
+      transition: opacity 1s ease; /* Smooth fade-out transition */
+    }
+
+    .overlay.hidden {
+      opacity: 0;
+      pointer-events: none; /* Disable interactions after fade-out */
+    }
+
+    .overlay-text {
+      font-size: 48px;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+      cursor: pointer;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    @media screen and (max-width: 768px) {
+      .overlay-text {
+        font-size: 32px;
+      }
+    }
+
     /* Custom Cursor Styles (Disabled by default on desktop for better usability) */
     .cursor {
       width: 20px;
@@ -395,6 +431,11 @@
 </head>
 
 <body>
+  <!-- Overlay Screen -->
+  <div class="overlay" id="overlay">
+    <div class="overlay-text" id="overlayText">CLICK TO ENTER</div>
+  </div>
+
   <!-- Custom Cursor Elements -->
   <div class="cursor"></div>
   <div class="cursor-follower"></div>
@@ -422,12 +463,7 @@
 
   <!-- YouTube Player -->
   <div class="youtube-player">
-    <iframe id="ytplayer" type="text/html" width="372" height="209"
-      src="https://www.youtube.com/embed/nTeg3yoAU6U?autoplay=1&controls=0&loop=1&playlist=nTeg3yoAU6U" 
-      title="YouTube video player" frameborder="0" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-    </iframe>
+    <div id="ytplayer"></div> <!-- Placeholder for YouTube IFrame API -->
   </div>
 
   <!-- Social Media Buttons -->
@@ -442,7 +478,50 @@
     <div class="copyright">© Money Dance Records '25</div>
   </div>
 
+  <!-- Load YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
   <script>
+    // YouTube IFrame API Setup
+    let player;
+    let playerReady = false;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('ytplayer', {
+        width: window.innerWidth >= 769 ? 400 : 372,
+        height: window.innerWidth >= 769 ? 225 : 209,
+        videoId: 'nTeg3yoAU6U',
+        playerVars: {
+          controls: 0, // Hide controls
+          loop: 1, // Loop the video
+          playlist: 'nTeg3yoAU6U', // Required for looping
+          mute: 0 // Ensure sound is on (will play after user interaction)
+        },
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      playerReady = true;
+      // Don’t play yet; wait for overlay click
+    }
+
+    // Overlay Click Handler
+    const overlay = document.getElementById('overlay');
+    overlay.addEventListener('click', () => {
+      // Fade out overlay
+      overlay.classList.add('hidden');
+      
+      // Start the video with sound after overlay fades out
+      if (playerReady) {
+        setTimeout(() => {
+          player.playVideo();
+        }, 1000); // Match the fade-out duration (1s)
+      }
+    });
+
     // Countdown Timer
     const countdownDate = new Date("Nov 7, 2025 16:20:00").getTime();
 
@@ -492,23 +571,12 @@
       });
     }
 
-    // Ensure YouTube player dimensions on desktop
-    window.addEventListener('load', () => {
-      const player = document.getElementById('ytplayer');
-      if (window.innerWidth >= 769) {
-        player.width = 400; /* Updated to 400px as requested */
-        player.height = 225; /* Updated to 225px as requested */
-      }
-    });
-
+    // Ensure YouTube player dimensions on resize
     window.addEventListener('resize', () => {
-      const player = document.getElementById('ytplayer');
-      if (window.innerWidth >= 769) {
-        player.width = 400; /* Updated to 400px as requested */
-        player.height = 225; /* Updated to 225px as requested */
-      } else {
-        player.width = 372;
-        player.height = 209;
+      if (playerReady) {
+        const width = window.innerWidth >= 769 ? 400 : 372;
+        const height = window.innerWidth >= 769 ? 225 : 209;
+        player.setSize(width, height);
       }
     });
   </script>
