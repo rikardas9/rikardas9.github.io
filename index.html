@@ -1,16 +1,18 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dirty Era</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box !important;
-      cursor: none !important;
+      cursor: none !important; /* Disable default cursor */
     }
 
     html, body {
@@ -32,6 +34,7 @@
       min-height: 100vh;
     }
 
+    /* Custom Cursor Styles */
     .cursor {
       width: 20px;
       height: 20px;
@@ -43,7 +46,7 @@
       z-index: 9999;
       transition: transform 0.3s ease;
     }
-
+    
     .cursor-follower {
       width: 10px;
       height: 10px;
@@ -55,18 +58,19 @@
       z-index: 9998;
       transition: transform 0.6s ease, width 0.3s ease, height 0.3s ease;
     }
-
+    
     .cursor.active {
       transform: scale(1.5);
       background-color: white;
     }
-
+    
     .cursor-follower.active {
       transform: scale(0.1);
       width: 30px;
       height: 30px;
     }
 
+    /* Animated background lines */
     .lines {
       position: absolute;
       top: 0;
@@ -101,25 +105,71 @@
       animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
     }
 
-    .line:nth-child(1)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF4500 75%, #FF4500 100%); animation-delay: 0.5s; }
-    .line:nth-child(2)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #32CD32 75%, #32CD32 100%); animation-delay: 1s; }
-    .line:nth-child(3)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #1E90FF 75%, #1E90FF 100%); animation-delay: 1.5s; }
-    .line:nth-child(4)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FFD700 75%, #FFD700 100%); animation-delay: 2s; }
-    .line:nth-child(5)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #8A2BE2 75%, #8A2BE2 100%); animation-delay: 2.5s; }
-    .line:nth-child(6)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #20B2AA 75%, #20B2AA 100%); animation-delay: 3s; }
-    .line:nth-child(7)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #DC143C 75%, #DC143C 100%); animation-delay: 3.5s; }
-    .line:nth-child(8)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00FA9A 75%, #00FA9A 100%); animation-delay: 4s; }
-    .line:nth-child(9)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF1493 75%, #FF1493 100%); animation-delay: 4.5s; }
-    .line:nth-child(10)::after { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00BFFF 75%, #00BFFF 100%); animation-delay: 5s; }
-
-    @keyframes drop {
-      0% { top: -50%; }
-      100% { top: 110%; }
+    /* Different colors for each line's pseudo-element */
+    .line:nth-child(1)::after {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF4500 75%, #FF4500 100%);
+      animation-delay: 0.5s;
     }
 
+    .line:nth-child(2)::after {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #32CD32 75%, #32CD32 100%);
+      animation-delay: 1s;
+    }
+
+    .line:nth-child(3)::after {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #1E90FF 75%, #1E90FF 100%);
+      animation-delay: 1.5s;
+    }
+
+    .line:nth-child(4)::after {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FFD700 75%, #FFD700 100%);
+      animation-delay: 2s;
+    }
+
+    .line:nth-child(5)::after {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #8A2BE2 75%, #8A2BE2 100%);
+      animation-delay: 2.5s;
+    }
+
+    .line:nth-child(6)::after {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #20B2AA 75%, #20B2AA 100%);
+      animation-delay: 3s;
+    }
+
+    .line:nth-child(7)::after {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #DC143C 75%, #DC143C 100%);
+      animation-delay: 3.5s;
+    }
+
+    .line:nth-child(8)::after {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00FA9A 75%, #00FA9A 100%);
+      animation-delay: 4s;
+    }
+
+    .line:nth-child(9)::after {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FF1493 75%, #FF1493 100%);
+      animation-delay: 4.5s;
+    }
+
+    .line:nth-child(10)::after {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #00BFFF 75%, #00BFFF 100%);
+      animation-delay: 5s;
+    }
+
+    @keyframes drop {
+      0% {
+        top: -50%;
+      }
+      100% {
+        top: 110%;
+      }
+    }
+
+    /* Style for header image */
     .header-image {
-      width: 150px;
-      height: auto;
+      width: 100%;
+      max-width: 500px;
+      height: 150px;
       object-fit: contain;
       display: block;
       margin-bottom: 10px;
@@ -127,6 +177,7 @@
 
     .countdown-text {
       font-size: 32px;
+      font-weight: bold;
       color: darkgreen;
       margin-bottom: 5px;
       text-align: center;
@@ -151,6 +202,7 @@
       width: 220px;
       height: 50px;
       border: none;
+      outline: none;
       color: #fff;
       background: #111;
       cursor: none !important;
@@ -183,7 +235,17 @@
       border-radius: 10px;
     }
 
-    .glow-on-hover:hover:before { opacity: 1; }
+    .glow-on-hover:active {
+      color: #000;
+    }
+
+    .glow-on-hover:active:after {
+      background: transparent;
+    }
+
+    .glow-on-hover:hover:before {
+      opacity: 1;
+    }
 
     .glow-on-hover:after {
       z-index: -1;
@@ -198,11 +260,34 @@
     }
 
     @keyframes glowing {
-      0% { background-position: 0 0; }
-      50% { background-position: 400% 0; }
-      100% { background-position: 0 0; }
+      0% {
+        background-position: 0 0;
+      }
+
+      50% {
+        background-position: 400% 0;
+      }
+
+      100% {
+        background-position: 0 0;
+      }
     }
 
+    /* Style for YouTube Player */
+    .youtube-player {
+      width: 400px;
+      height: 225px; /* 16:9 aspect ratio for 400px width (400 * 9/16) */
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    .youtube-player iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Footer styles */
     .footer {
       margin-top: auto;
       padding: 20px 0;
@@ -216,70 +301,95 @@
     }
 
     @media screen and (max-width: 768px) {
+      .countdown {
+        font-size: 40px;
+      }
+
+      .social-buttons {
+        width: 100%;
+        align-items: center;
+      }
+
       .glow-on-hover {
         width: 80%;
         font-size: 14px;
       }
 
+      .youtube-player {
+        width: 372px;
+        height: 209px; /* 16:9 aspect ratio for 372px width (372 * 9/16) */
+      }
+      
+      /* Hide custom cursor on mobile */
       .cursor, .cursor-follower {
         display: none;
       }
-      * { cursor: auto !important; }
+      * {
+        cursor: auto !important;
+      }
     }
 
-    .youtube-wrapper {
-      width: 100%;
-      max-width: 960px;
-      aspect-ratio: 16 / 9;
-      margin: 10px auto;
-      position: relative;
-    }
+    @media screen and (max-width: 480px) {
+      .header-image {
+        width: 80%;
+        height: 120px;
+      }
 
-    .youtube-player iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
+      .countdown {
+        font-size: 32px;
+      }
+      
+      body {
+        padding-top: 5px;
+      }
+
+      .youtube-player {
+        width: 372px;
+        height: 209px; /* Maintain same size as 768px for smaller screens */
+      }
     }
   </style>
 </head>
 
 <body>
+  <!-- Custom Cursor Elements -->
   <div class="cursor"></div>
   <div class="cursor-follower"></div>
 
+  <!-- Animated Background Lines -->
   <div class="lines">
-    <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
-    <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
   </div>
 
-  <img src="https://i.imgur.com/LhdvpjU.png" class="header-image" alt="Skull Image" />
+  <!-- Header Image -->
+  <img src="https://i.imgur.com/LhdvpjU.png" class="header-image" alt="Skull Image" style="width: 183px; height: 106px;">
 
+  <!-- Countdown Section -->
   <div class="countdown-text">DIRTY ERA DROPS</div>
   <div class="countdown" id="countdown"></div>
 
-  <!-- Updated YouTube Player and Overlay -->
-  <div class="youtube-wrapper">
-    <div class="youtube-player">
-      <iframe id="youtube-iframe"
-        src="https://www.youtube.com/embed/nTeg3yoAU6U?autoplay=1&mute=1&enablejsapi=1"
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </div>
+  <!-- YouTube Player -->
+  <div class="youtube-player">
+    <iframe src="https://www.youtube.com/embed/nTeg3yoAU6U?si=R0NsyQOJOnu6Kuhv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
 
-  <!-- Overlay for Click-to-Unmute -->
-  <div id="overlay">
-    PRESS TO ENTER
-  </div>
-
+  <!-- Social Media Buttons -->
   <div class="social-buttons">
     <a href="https://www.youtube.com/channel/UCdH8weXCIfr2rARcInJn3Ew" class="glow-on-hover">YouTube</a>
     <a href="https://open.spotify.com/artist/2EbPx7TorY3TzgiyLzEEjY" class="glow-on-hover">Spotify</a>
     <a href="https://www.instagram.com/r1kas777/" class="glow-on-hover">Instagram</a>
   </div>
 
+  <!-- Footer with copyright -->
   <div class="footer">
     <div class="copyright">© Money Dance Records '25</div>
   </div>
@@ -287,56 +397,51 @@
   <script>
     // Countdown Timer
     const countdownDate = new Date("Nov 7, 2025 16:20:00").getTime();
-    const countdownFunction = setInterval(() => {
+
+    const countdownFunction = setInterval(function () {
       const now = new Date().getTime();
       const distance = countdownDate - now;
+
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
       document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
       if (distance < 0) {
         clearInterval(countdownFunction);
         document.getElementById("countdown").innerHTML = "EXPIRED";
       }
     }, 1000);
 
-    // Cursor interaction
+    // Custom Cursor
     const cursor = document.querySelector('.cursor');
-    const follower = document.querySelector('.cursor-follower');
+    const cursorFollower = document.querySelector('.cursor-follower');
     const links = document.querySelectorAll('a, button, .glow-on-hover');
 
-    document.addEventListener('mousemove', e => {
+    document.addEventListener('mousemove', (e) => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top = e.clientY + 'px';
+      
       setTimeout(() => {
-        follower.style.left = e.clientX + 'px';
-        follower.style.top = e.clientY + 'px';
+        cursorFollower.style.left = e.clientX + 'px';
+        cursorFollower.style.top = e.clientY + 'px';
       }, 100);
     });
 
     links.forEach(link => {
       link.addEventListener('mouseenter', () => {
         cursor.classList.add('active');
-        follower.classList.add('active');
+        cursorFollower.classList.add('active');
       });
+      
       link.addEventListener('mouseleave', () => {
         cursor.classList.remove('active');
-        follower.classList.remove('active');
+        cursorFollower.classList.remove('active');
       });
-    });
-
-    // YouTube API script for unmute control
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(tag);
-
-    // Overlay click to unmute
-    document.getElementById('overlay').addEventListener('click', function () {
-      const iframe = document.getElementById('youtube-iframe');
-      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-      this.style.display = 'none';
     });
   </script>
 </body>
+
 </html>
