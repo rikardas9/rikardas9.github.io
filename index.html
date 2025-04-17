@@ -10,13 +10,14 @@
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box !important;
-      cursor: none !important; /* Disable default cursor */
+      box-sizing: border-box;
     }
 
     html, body {
       width: 100%;
       height: 100%;
+      overflow-x: hidden; /* Prevent horizontal overflow */
+      overflow-y: auto; /* Allow vertical scrolling if needed */
     }
 
     body {
@@ -28,13 +29,13 @@
       font-family: 'Bebas Neue', sans-serif;
       color: #fff;
       position: relative;
-      overflow-x: hidden; /* Prevent horizontal scrolling */
-      overflow-y: auto; /* Allow vertical scrolling */
       padding-top: 10px;
       min-height: 100vh;
+      width: 100%;
+      max-width: 100vw; /* Ensure body doesn’t exceed viewport width */
     }
 
-    /* Custom Cursor Styles */
+    /* Custom Cursor Styles (Disabled by default on desktop for better usability) */
     .cursor {
       width: 20px;
       height: 20px;
@@ -45,6 +46,7 @@
       mix-blend-mode: difference;
       z-index: 9999;
       transition: transform 0.3s ease;
+      display: none; /* Disabled by default on desktop */
     }
     
     .cursor-follower {
@@ -57,6 +59,7 @@
       mix-blend-mode: difference;
       z-index: 9998;
       transition: transform 0.6s ease, width 0.3s ease, height 0.3s ease;
+      display: none; /* Disabled by default on desktop */
     }
     
     .cursor.active {
@@ -70,15 +73,25 @@
       height: 30px;
     }
 
+    /* Enable custom cursor only on larger screens (e.g., >768px) */
+    @media screen and (min-width: 769px) {
+      .cursor, .cursor-follower {
+        display: block;
+      }
+      * {
+        cursor: none !important;
+      }
+    }
+
     /* Animated background lines */
     .lines {
       position: absolute;
       top: 0;
-      left: 0;
-      right: 0;
+      left: 50%;
+      transform: translateX(-50%);
       height: 100%;
-      margin: auto;
       width: 90vw;
+      max-width: 1200px; /* Limit width on very large screens */
       display: flex;
       justify-content: space-between;
       z-index: -1;
@@ -167,13 +180,12 @@
 
     /* Style for header image */
     .header-image {
-      width: 183px;
-      height: 106px;
+      width: 100%;
+      max-width: 500px;
+      height: 150px;
+      object-fit: contain;
       display: block;
       margin-bottom: 10px;
-      object-fit: contain;
-      image-rendering: -webkit-optimize-contrast; /* Improve rendering in Safari and Chrome */
-      -webkit-backface-visibility: hidden; /* Fix for rendering issues */
     }
 
     .countdown-text {
@@ -187,8 +199,12 @@
     .countdown {
       font-size: 50px;
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       text-align: center;
+      width: 300px; /* Fixed width to prevent reflow */
+      height: 60px; /* Fixed height to prevent reflow */
+      line-height: 60px; /* Center text vertically */
+      overflow: hidden; /* Prevent overflow from affecting layout */
     }
 
     .social-buttons {
@@ -197,16 +213,18 @@
       gap: 10px;
       align-items: center;
       margin-bottom: 15px;
+      width: 100%;
+      max-width: 220px; /* Limit button width */
     }
 
     .glow-on-hover {
-      width: 220px;
+      width: 100%;
+      max-width: 220px;
       height: 50px;
       border: none;
       outline: none;
       color: #fff;
       background: #111;
-      cursor: none !important;
       position: relative;
       z-index: 0;
       border-radius: 10px;
@@ -217,6 +235,7 @@
       align-items: center;
       justify-content: center;
       text-decoration: none;
+      transition: all 0.3s ease;
     }
 
     .glow-on-hover:before {
@@ -264,11 +283,9 @@
       0% {
         background-position: 0 0;
       }
-
       50% {
         background-position: 400% 0;
       }
-
       100% {
         background-position: 0 0;
       }
@@ -276,70 +293,12 @@
 
     /* Style for YouTube Player */
     .youtube-player {
-      width: 400px;
-      height: 225px; /* 16:9 aspect ratio for 400px width (400 * 9/16) */
-      margin: 10px 0;
-      position: relative;
-      padding-bottom: 56.25%; /* 9/16 = 56.25% to enforce 16:9 aspect ratio */
+      width: 100%;
+      max-width: 372px; /* Default for mobile */
+      padding-bottom: 56.25%; /* 16:9 aspect ratio (9/16 = 0.5625) */
       height: 0;
+      margin: 20px 0;
       overflow: hidden;
-    }
-
-    .youtube-player iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Play with Sound Button */
-    .play-button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background: #111;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 16px;
-      cursor: none !important;
-      position: relative;
-      z-index: 0;
-    }
-
-    .play-button:before {
-      content: '';
-      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      background-size: 400%;
-      z-index: -1;
-      filter: blur(5px);
-      width: calc(100% + 4px);
-      height: calc(100% + 4px);
-      animation: glowing 20s linear infinite;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-      border-radius: 5px;
-    }
-
-    .play-button:hover:before {
-      opacity: 1;
-    }
-
-    .play-button:after {
-      z-index: -1;
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #111;
-      left: 0;
-      top: 0;
-      border-radius: 5px;
     }
 
     /* Footer styles */
@@ -355,9 +314,13 @@
       color: #888;
     }
 
+    /* Responsive Adjustments */
     @media screen and (max-width: 768px) {
       .countdown {
         font-size: 40px;
+        width: 250px; /* Adjusted for mobile */
+        height: 50px;
+        line-height: 50px;
       }
 
       .social-buttons {
@@ -371,10 +334,9 @@
       }
 
       .youtube-player {
-        width: 372px;
-        padding-bottom: 56.25%; /* Maintain 16:9 aspect ratio (372 * 9/16 = 209) */
+        max-width: 372px; /* Keep mobile size unchanged */
       }
-
+      
       /* Hide custom cursor on mobile */
       .cursor, .cursor-follower {
         display: none;
@@ -386,12 +348,15 @@
 
     @media screen and (max-width: 480px) {
       .header-image {
-        width: 183px;
-        height: 106px;
+        width: 80%;
+        height: 120px;
       }
 
       .countdown {
         font-size: 32px;
+        width: 200px; /* Adjusted for smaller mobile */
+        height: 40px;
+        line-height: 40px;
       }
       
       body {
@@ -399,8 +364,31 @@
       }
 
       .youtube-player {
-        width: 372px;
-        padding-bottom: 56.25%; /* Maintain 16:9 aspect ratio (372 * 9/16 = 209) */
+        max-width: 372px; /* Keep mobile size unchanged */
+      }
+    }
+
+    /* Desktop-specific adjustments */
+    @media screen and (min-width: 769px) {
+      .youtube-player {
+        width: 400px !important; /* Explicit width as requested */
+        max-width: 400px !important; /* Explicit max-width */
+        height: 225px !important; /* Explicit height as requested */
+        padding-bottom: 0 !important; /* Remove aspect ratio padding */
+      }
+
+      .social-buttons {
+        flex-direction: row; /* Arrange buttons horizontally */
+        justify-content: center; /* Center the buttons */
+        gap: 10px;
+        max-width: 100%; /* Allow buttons to take full width */
+        flex-wrap: wrap; /* Allow wrapping if needed */
+        direction: rtl; /* Right-to-left order: Instagram, Spotify, YouTube */
+      }
+
+      .glow-on-hover {
+        width: 220px; /* Fixed width for buttons */
+        max-width: 220px;
       }
     }
   </style>
@@ -425,20 +413,21 @@
     <div class="line"></div>
   </div>
 
-  <!-- Header Image with Fallback -->
-  <picture>
-    <source src="https://i.imgur.com/LhdvpjU.png" type="image/png">
-    <img src="https://i.imgur.com/LhdvpjU.png" class="header-image" alt="Skull Image" width="183" height="106" crossorigin="anonymous" loading="eager" onerror="this.onerror=null; this.src='https://via.placeholder.com/183x106?text=Header+Image+Failed+to+Load';">
-  </picture>
+  <!-- Header Image -->
+  <img src="https://i.imgur.com/LhdvpjU.png" class="header-image" alt="Skull Image" style="width: 183px; height: 106px;">
 
   <!-- Countdown Section -->
   <div class="countdown-text">DIRTY ERA DROPS</div>
-  <div class="countdown" id="countdown"></div>
+  <div class="countdown" id="countdown">Loading...</div>
 
   <!-- YouTube Player -->
   <div class="youtube-player">
-    <iframe id="youtube-player" src="https://www.youtube.com/embed/nTeg3yoAU6U?si=R0NsyQOJOnu6Kuhv&enablejsapi=1&autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    <button class="play-button" id="play-button">Play with Sound</button>
+    <iframe id="ytplayer" type="text/html" width="372" height="209"
+      src="https://www.youtube.com/embed/nTeg3yoAU6U?autoplay=1&controls=0&loop=1&playlist=nTeg3yoAU6U" 
+      title="YouTube video player" frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    </iframe>
   </div>
 
   <!-- Social Media Buttons -->
@@ -474,50 +463,53 @@
       }
     }, 1000);
 
-    // Custom Cursor
+    // Custom Cursor (Only runs if enabled on desktop)
     const cursor = document.querySelector('.cursor');
     const cursorFollower = document.querySelector('.cursor-follower');
-    const links = document.querySelectorAll('a, button, .glow-on-hover, .play-button');
+    const links = document.querySelectorAll('a, button, .glow-on-hover');
 
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      
-      setTimeout(() => {
-        cursorFollower.style.left = e.clientX + 'px';
-        cursorFollower.style.top = e.clientY + 'px';
-      }, 100);
-    });
-
-    links.forEach(link => {
-      link.addEventListener('mouseenter', () => {
-        cursor.classList.add('active');
-        cursorFollower.classList.add('active');
+    if (cursor && cursorFollower) {
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        setTimeout(() => {
+          cursorFollower.style.left = e.clientX + 'px';
+          cursorFollower.style.top = e.clientY + 'px';
+        }, 100);
       });
-      
-      link.addEventListener('mouseleave', () => {
-        cursor.classList.remove('active');
-        cursorFollower.classList.remove('active');
+
+      links.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          cursor.classList.add('active');
+          cursorFollower.classList.add('active');
+        });
+        
+        link.addEventListener('mouseleave', () => {
+          cursor.classList.remove('active');
+          cursorFollower.classList.remove('active');
+        });
       });
+    }
+
+    // Ensure YouTube player dimensions on desktop
+    window.addEventListener('load', () => {
+      const player = document.getElementById('ytplayer');
+      if (window.innerWidth >= 769) {
+        player.width = 400; /* Updated to 400px as requested */
+        player.height = 225; /* Updated to 225px as requested */
+      }
     });
 
-    // Play with Sound Button
-    const playButton = document.getElementById('play-button');
-    const youtubeIframe = document.getElementById('youtube-player');
-
-    playButton.addEventListener('click', () => {
-      // Unmute and play the video
-      youtubeIframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-      youtubeIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-      // Hide the button after clicking
-      playButton.style.display = 'none';
-    });
-
-    // Fallback for header image if it fails to load
-    const headerImage = document.querySelector('.header-image');
-    headerImage.addEventListener('error', () => {
-      console.error('Header image failed to load. Switching to fallback.');
-      headerImage.src = 'https://via.placeholder.com/183x106?text=Header+Image+Failed+to+Load';
+    window.addEventListener('resize', () => {
+      const player = document.getElementById('ytplayer');
+      if (window.innerWidth >= 769) {
+        player.width = 400; /* Updated to 400px as requested */
+        player.height = 225; /* Updated to 225px as requested */
+      } else {
+        player.width = 372;
+        player.height = 209;
+      }
     });
   </script>
 </body>
