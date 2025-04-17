@@ -17,6 +17,12 @@
     html, body {
       width: 100%;
       height: 100%;
+      /* Prevent zooming */
+      touch-action: none; /* Disable pinch-zoom and other touch gestures */
+      -webkit-text-size-adjust: none; /* Prevent font scaling */
+      -webkit-touch-callout: none; /* Disable callouts on iOS */
+      -webkit-user-select: none; /* Disable text selection */
+      user-select: none;
     }
 
     body {
@@ -354,7 +360,7 @@
       color: #888;
     }
 
-    /* Block rotation on mobile */
+    /* Block rotation and zooming on mobile */
     @media screen and (max-width: 768px) {
       .countdown {
         font-size: 40px;
@@ -383,24 +389,52 @@
         cursor: auto !important;
       }
 
-      /* Enforce portrait orientation */
+      /* Force portrait layout in landscape mode */
       @media (orientation: landscape) {
-        body {
-          display: none; /* Hide content in landscape mode */
+        html, body {
+          height: 100%;
+          width: 100%;
+          overflow: hidden;
         }
 
-        /* Show rotate message */
+        body {
+          /* Rotate the body back to portrait orientation */
+          transform: rotate(-90deg);
+          transform-origin: center center;
+          width: 100vh; /* Swap width and height to match portrait */
+          height: 100vw;
+          position: absolute;
+          top: 0;
+          left: 0;
+          margin: 0;
+          padding: 0;
+          /* Center content after rotation */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-top: 10px;
+        }
+
+        /* Adjust the lines to fit the rotated layout */
+        .lines {
+          width: 90vh; /* Adjust to viewport height after rotation */
+          height: 100vw;
+        }
+
+        /* Show rotate message if transform fails or isn't ideal */
         .rotate-message {
           display: flex !important;
           justify-content: center;
           align-items: center;
-          height: 100vh;
+          height: 100vw;
+          width: 100vh;
           background: #000;
           color: #fff;
           font-family: 'Bebas Neue', sans-serif;
           font-size: 24px;
           text-align: center;
           padding: 20px;
+          transform: rotate(90deg); /* Counter-rotate the message */
         }
       }
     }
@@ -557,12 +591,32 @@
       headerImage.src = 'https://via.placeholder.com/183x106?text=Header+Image+Failed+to+Load';
     });
 
-    // Attempt to lock orientation to portrait on mobile
+    // Attempt to lock orientation to portrait on mobile (still included for browsers that support it)
     if (window.screen && window.screen.orientation && window.screen.orientation.lock) {
       window.screen.orientation.lock('portrait').catch(err => {
         console.warn('Orientation lock failed:', err);
       });
     }
+
+    // Prevent pinch-zoom gestures
+    document.addEventListener('touchmove', (e) => {
+      if (e.scale !== 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    // Prevent double-tap zoom
+    document.addEventListener('touchstart', (e) => {
+      const now = new Date().getTime();
+      const lastTouch = e.target.getAttribute('last-touch') || 0;
+      const timeDiff = now - lastTouch;
+
+      if (timeDiff < 300 && timeDiff > 0) {
+        e.preventDefault();
+      }
+
+      e.target.setAttribute('last-touch', now);
+    }, { passive: false });
   </script>
 </body>
 
